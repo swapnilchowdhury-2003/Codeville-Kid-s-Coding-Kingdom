@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍕 Magic Food Table - Codeville</title>
+    <title>🍕 Magic Food Table (Lists/Arrays) - Codeville</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/kid-friendly.css">
+    <link rel="stylesheet" href="../css/mcq.css">
     <style>
         .story-container {
             max-width: 1200px;
@@ -412,7 +413,7 @@
     <main class="story-container">
         <!-- Story Header -->
         <section class="story-header fade-in">
-            <div class="story-title">🍕 The Magic Food Table</div>
+            <div class="story-title">🍕 The Magic Food Table (Lists/Arrays)</div>
             <div class="story-subtitle">Learn about Lists!</div>
         </section>
 
@@ -466,6 +467,10 @@
 
         <!-- Action Buttons -->
         <section class="action-buttons">
+            <button class="mcq-button" id="mcqButton" onclick="MCQController.showMCQ()">
+                <span>📝</span>
+                <span>Take Quiz</span>
+            </button>
             <button class="action-btn secondary" onclick="clearTable()">
                 <span>🗑️</span>
                 <span>Clear Table</span>
@@ -503,9 +508,24 @@
         </div>
     </div>
 
+    <!-- MCQ Modal -->
+    <div class="mcq-modal" id="mcqModal">
+        <div class="mcq-content">
+            <button class="mcq-close" onclick="MCQController.closeMCQ()">×</button>
+            <div class="mcq-header">
+                <div class="mcq-title">📝 Knowledge Check!</div>
+                <div class="mcq-subtitle">Test what you learned about Lists/Arrays</div>
+            </div>
+            <div id="mcqQuestionContainer">
+                <!-- Questions will be loaded here -->
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="../js/main.js"></script>
     <script src="../js/profile.js"></script>
+    <script src="../js/mcq.js"></script>
     <script>
         // Game state
         const gameState = {
@@ -525,6 +545,8 @@
         // Initialize game
         document.addEventListener('DOMContentLoaded', function() {
             initializeGame();
+            // Initialize MCQ system
+            MCQController.init(1);
         });
 
         function initializeGame() {

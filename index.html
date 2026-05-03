@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏰 Codeville - Kid's Coding Kingdom</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/kid-friendly.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link active">🏠 Home</a></li>
+                <li><a href="profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="home-container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="cody-character">
+                <div class="cody-body">
+                    <div class="cody-head">
+                        <div class="cody-antenna"></div>
+                        <div class="cody-eyes">
+                            <div class="eye left-eye">
+                                <div class="pupil"></div>
+                            </div>
+                            <div class="eye right-eye">
+                                <div class="pupil"></div>
+                            </div>
+                        </div>
+                        <div class="cody-mouth"></div>
+                    </div>
+                    <div class="cody-torso"></div>
+                    <div class="cody-arms">
+                        <div class="arm left-arm"></div>
+                        <div class="arm right-arm"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="welcome-text">
+                <h1 class="welcome-title bounce-in">Welcome to Codeville! 🎉</h1>
+                <p class="welcome-subtitle fade-in">Hi! I'm Cody, your coding friend! 🤖</p>
+                <p class="welcome-description fade-in-delay">Let's learn programming through fun stories and games!</p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="big-button primary-button" id="startButton">
+                    <span class="button-icon">🚀</span>
+                    <span class="button-text">Start Adventure!</span>
+                </button>
+                <button class="big-button secondary-button" id="continueButton" style="display: none;">
+                    <span class="button-icon">▶️</span>
+                    <span class="button-text">Continue Learning</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Stories Preview Section -->
+        <section class="stories-preview">
+            <h2 class="section-title">🎮 Fun Learning Stories</h2>
+            <div class="stories-grid">
+                <div class="story-card" data-story="1">
+                    <div class="story-icon">🍕</div>
+                    <h3 class="story-title">Magic Food Table</h3>
+                    <p class="story-description">Learn about lists and arrays!</p>
+                    <div class="story-stars">
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                    </div>
+                </div>
+
+                <div class="story-card" data-story="2">
+                    <div class="story-icon">🤖</div>
+                    <h3 class="story-title">Dancing Robot</h3>
+                    <p class="story-description">Discover loops and repetition!</p>
+                    <div class="story-stars">
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                    </div>
+                </div>
+
+                <div class="story-card" data-story="3">
+                    <div class="story-icon">📦</div>
+                    <h3 class="story-title">Magic Treasure Box</h3>
+                    <p class="story-description">Explore variables and storage!</p>
+                    <div class="story-stars">
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                    </div>
+                </div>
+
+                <div class="story-card" data-story="4">
+                    <div class="story-icon">🌦️</div>
+                    <h3 class="story-title">Weather Friend</h3>
+                    <p class="story-description">Learn about decisions!</p>
+                    <div class="story-stars">
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                    </div>
+                </div>
+
+                <div class="story-card" data-story="5">
+                    <div class="story-icon">🍳</div>
+                    <h3 class="story-title">Recipe Robot</h3>
+                    <p class="story-description">Understand functions!</p>
+                    <div class="story-stars">
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                        <span class="star">☆</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2 class="section-title">✨ What Makes Codeville Special?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3 class="feature-title">Story-Based Learning</h3>
+                    <p class="feature-description">Every lesson is a fun adventure!</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3 class="feature-title">Interactive Games</h3>
+                    <p class="feature-description">Learn by playing, not reading!</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3 class="feature-title">Earn Rewards</h3>
+                    <p class="feature-description">Collect stars and badges!</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">Compete with Friends</h3>
+                    <p class="feature-description">See who learns the most!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>Made with ❤️ for young learners | © 2026 Codeville</p>
+    </footer>
+
+    <!-- Profile Creation Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <h2 class="modal-title">👋 Let's Create Your Profile!</h2>
+            
+            <div class="profile-form">
+                <div class="form-group">
+                    <label class="form-label">What's your name?</label>
+                    <input type="text" id="kidName" class="form-input" placeholder="Enter your name" maxlength="20">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pick your avatar!</label>
+                    <div class="avatar-grid">
+                        <button class="avatar-option" data-avatar="🐱">🐱</button>
+                        <button class="avatar-option" data-avatar="🐶">🐶</button>
+                        <button class="avatar-option" data-avatar="🐼">🐼</button>
+                        <button class="avatar-option" data-avatar="🦁">🦁</button>
+                        <button class="avatar-option" data-avatar="🐸">🐸</button>
+                        <button class="avatar-option" data-avatar="🦄">🦄</button>
+                        <button class="avatar-option" data-avatar="🤖">🤖</button>
+                        <button class="avatar-option" data-avatar="🐙">🐙</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Choose your favorite color!</label>
+                    <div class="color-grid">
+                        <button class="color-option" data-color="red" style="background: #FF6B6B;"></button>
+                        <button class="color-option" data-color="orange" style="background: #FFA500;"></button>
+                        <button class="color-option" data-color="yellow" style="background: #FFD93D;"></button>
+                        <button class="color-option" data-color="green" style="background: #2ECC71;"></button>
+                        <button class="color-option" data-color="blue" style="background: #4A90E2;"></button>
+                        <button class="color-option" data-color="purple" style="background: #9B59B6;"></button>
+                        <button class="color-option" data-color="pink" style="background: #FF6B9D;"></button>
+                        <button class="color-option" data-color="brown" style="background: #8B4513;"></button>
+                    </div>
+                </div>
+
+                <button class="big-button primary-button" id="createProfileButton" disabled>
+                    <span class="button-icon">✨</span>
+                    <span class="button-text">Start My Adventure!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

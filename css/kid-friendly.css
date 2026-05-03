@@ -1,0 +1,668 @@
+/* ===================================
+   CODEVILLE - KID-FRIENDLY STYLES
+   Extra Large, Touch-Friendly Design
+   =================================== */
+
+/* ===== EXTRA LARGE TEXT ===== */
+
+.extra-large-text {
+    font-size: 48px !important;
+    line-height: 1.6;
+}
+
+.large-text {
+    font-size: 36px !important;
+    line-height: 1.6;
+}
+
+.medium-text {
+    font-size: 28px !important;
+    line-height: 1.6;
+}
+
+/* ===== TOUCH-FRIENDLY BUTTONS ===== */
+
+.touch-button {
+    min-width: 120px;
+    min-height: 80px;
+    padding: 20px 30px;
+    font-size: 28px;
+    border-radius: 20px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mega-button {
+    min-width: 200px;
+    min-height: 100px;
+    padding: 30px 50px;
+    font-size: 36px;
+    border-radius: 30px;
+}
+
+/* ===== COLORFUL BACKGROUNDS ===== */
+
+.bg-happy-yellow {
+    background: linear-gradient(135deg, #FFD93D, #FFA500);
+}
+
+.bg-fun-pink {
+    background: linear-gradient(135deg, #FF6B9D, #FF1493);
+}
+
+.bg-cody-blue {
+    background: linear-gradient(135deg, #4A90E2, #1E90FF);
+}
+
+.bg-success-green {
+    background: linear-gradient(135deg, #2ECC71, #27AE60);
+}
+
+.bg-playful-purple {
+    background: linear-gradient(135deg, #9B59B6, #8E44AD);
+}
+
+.bg-bright-orange {
+    background: linear-gradient(135deg, #FFA500, #FF8C00);
+}
+
+.bg-sky-blue {
+    background: #E3F2FD;
+}
+
+.bg-sunshine {
+    background: #FFF9E6;
+}
+
+.bg-grass-green {
+    background: #E8F5E9;
+}
+
+/* ===== EMOJI ICONS (Large) ===== */
+
+.emoji-icon {
+    font-size: 64px;
+    display: inline-block;
+    line-height: 1;
+}
+
+.emoji-icon-large {
+    font-size: 96px;
+    display: inline-block;
+    line-height: 1;
+}
+
+.emoji-icon-mega {
+    font-size: 128px;
+    display: inline-block;
+    line-height: 1;
+}
+
+/* ===== ROUNDED CORNERS (Kid-Friendly) ===== */
+
+.rounded-small {
+    border-radius: 12px;
+}
+
+.rounded-medium {
+    border-radius: 20px;
+}
+
+.rounded-large {
+    border-radius: 30px;
+}
+
+.rounded-full {
+    border-radius: 50%;
+}
+
+/* ===== SHADOWS (Soft & Friendly) ===== */
+
+.shadow-soft {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-medium {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-strong {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.shadow-colorful {
+    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+}
+
+/* ===== SPACING UTILITIES ===== */
+
+.spacing-xs {
+    padding: 8px;
+}
+
+.spacing-sm {
+    padding: 16px;
+}
+
+.spacing-md {
+    padding: 24px;
+}
+
+.spacing-lg {
+    padding: 32px;
+}
+
+.spacing-xl {
+    padding: 48px;
+}
+
+.margin-xs {
+    margin: 8px;
+}
+
+.margin-sm {
+    margin: 16px;
+}
+
+.margin-md {
+    margin: 24px;
+}
+
+.margin-lg {
+    margin: 32px;
+}
+
+.margin-xl {
+    margin: 48px;
+}
+
+/* ===== GAP UTILITIES ===== */
+
+.gap-xs {
+    gap: 8px;
+}
+
+.gap-sm {
+    gap: 16px;
+}
+
+.gap-md {
+    gap: 24px;
+}
+
+.gap-lg {
+    gap: 32px;
+}
+
+.gap-xl {
+    gap: 48px;
+}
+
+/* ===== INTERACTIVE ELEMENTS ===== */
+
+.clickable {
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.draggable {
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* ===== BADGES & LABELS ===== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.badge-star {
+    background: linear-gradient(135deg, #FFD93D, #FFA500);
+    color: #fff;
+}
+
+.badge-trophy {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #fff;
+}
+
+.badge-fire {
+    background: linear-gradient(135deg, #FF6B6B, #FF4500);
+    color: #fff;
+}
+
+.badge-heart {
+    background: linear-gradient(135deg, #FF6B9D, #FF1493);
+    color: #fff;
+}
+
+/* ===== PROGRESS BARS ===== */
+
+.progress-bar-container {
+    width: 100%;
+    height: 40px;
+    background: #E0E0E0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2ECC71, #27AE60);
+    border-radius: 20px;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.progress-bar-animated {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== CARDS ===== */
+
+.kid-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.kid-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.kid-card-colorful {
+    background: linear-gradient(135deg, #E3F2FD, #FFF9E6);
+    border: 3px solid #4A90E2;
+}
+
+/* ===== STARS RATING ===== */
+
+.stars-container {
+    display: flex;
+    gap: 8px;
+    font-size: 36px;
+}
+
+.star-empty {
+    color: #E0E0E0;
+}
+
+.star-filled {
+    color: #FFD93D;
+    text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+}
+
+.star-half {
+    background: linear-gradient(90deg, #FFD93D 50%, #E0E0E0 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ===== TOOLTIPS (Kid-Friendly) ===== */
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    background: #2C3E50;
+    color: white;
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ===== SPEECH BUBBLES ===== */
+
+.speech-bubble {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    padding: 20px 30px;
+    font-size: 24px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: white;
+    border-bottom: 0;
+}
+
+.speech-bubble-left::after {
+    left: 30px;
+}
+
+.speech-bubble-right::after {
+    left: auto;
+    right: 30px;
+}
+
+/* ===== NOTIFICATION BADGES ===== */
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #FF6B6B;
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== LOADING STATES ===== */
+
+.loading-message {
+    text-align: center;
+    font-size: 32px;
+    color: #4A90E2;
+    padding: 40px;
+}
+
+.loading-emoji {
+    font-size: 64px;
+    animation: spin 2s linear infinite;
+}
+
+/* ===== SUCCESS/ERROR MESSAGES ===== */
+
+.message-box {
+    padding: 24px 32px;
+    border-radius: 20px;
+    font-size: 24px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.message-success {
+    background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+    border: 3px solid #2ECC71;
+    color: #1B5E20;
+}
+
+.message-error {
+    background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+    border: 3px solid #FF6B6B;
+    color: #B71C1C;
+}
+
+.message-info {
+    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+    border: 3px solid #4A90E2;
+    color: #0D47A1;
+}
+
+.message-warning {
+    background: linear-gradient(135deg, #FFF9E6, #FFE082);
+    border: 3px solid #FFA500;
+    color: #F57C00;
+}
+
+/* ===== AVATAR DISPLAY ===== */
+
+.avatar-display {
+    width: 80px;
+    height: 80px;
+    font-size: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-large {
+    width: 120px;
+    height: 120px;
+    font-size: 96px;
+}
+
+.avatar-small {
+    width: 50px;
+    height: 50px;
+    font-size: 40px;
+}
+
+/* ===== GRID LAYOUTS ===== */
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+}
+
+/* ===== FLEX UTILITIES ===== */
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* ===== TEXT UTILITIES ===== */
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+/* ===== COLOR TEXT ===== */
+
+.text-blue {
+    color: #4A90E2;
+}
+
+.text-pink {
+    color: #FF6B9D;
+}
+
+.text-green {
+    color: #2ECC71;
+}
+
+.text-yellow {
+    color: #FFD93D;
+}
+
+.text-purple {
+    color: #9B59B6;
+}
+
+.text-orange {
+    color: #FFA500;
+}
+
+/* ===== RESPONSIVE UTILITIES ===== */
+
+@media (max-width: 768px) {
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .hide-mobile {
+        display: none !important;
+    }
+    
+    .extra-large-text {
+        font-size: 36px !important;
+    }
+    
+    .large-text {
+        font-size: 28px !important;
+    }
+    
+    .medium-text {
+        font-size: 22px !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .hide-desktop {
+        display: none !important;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+.focus-visible:focus {
+    outline: 4px solid #4A90E2;
+    outline-offset: 4px;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #4A90E2;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 0 0 12px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+
+@media (prefers-contrast: high) {
+    .kid-card,
+    .message-box,
+    .speech-bubble {
+        border: 3px solid currentColor;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/* Made with Bob */

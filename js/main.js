@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('🏰 Codeville is loading...');
     
     // Initialize all features
+    initTheme();
     initNavigation();
     initProfileModal();
     initStoryCards();
@@ -16,6 +17,58 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('✅ Codeville is ready!');
 });
+
+// ===== THEME MANAGEMENT =====
+
+function initTheme() {
+    // Get saved theme or check system preference
+    const savedTheme = localStorage.getItem('codevilleTheme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Set initial theme
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    setTheme(theme);
+    
+    // Theme toggle button
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+            playSound('click');
+            
+            // Show message
+            const emoji = newTheme === 'dark' ? '🌙' : '☀️';
+            const message = newTheme === 'dark' ? 'Dark mode activated!' : 'Light mode activated!';
+            showMessage(`${emoji} ${message}`, 'info');
+        });
+    }
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('codevilleTheme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+}
+
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('codevilleTheme', theme);
+    console.log(`🎨 Theme set to: ${theme}`);
+}
+
+function getTheme() {
+    return document.documentElement.getAttribute('data-theme') || 'light';
+}
+
+function toggleTheme() {
+    const currentTheme = getTheme();
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    return newTheme;
+}
 
 // ===== NAVIGATION =====
 
@@ -567,7 +620,10 @@ window.Codeville = {
     showMessage,
     showCelebration,
     createConfetti,
-    navigateWithTransition
+    navigateWithTransition,
+    getTheme,
+    setTheme,
+    toggleTheme
 };
 
 console.log('🎮 Codeville functions loaded!');

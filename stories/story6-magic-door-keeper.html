@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚪 The Magic Door Keeper (Comparison) - Codeville</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/kid-friendly.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/mcq.css">
+    <style>
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, var(--cody-blue), var(--fun-pink));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .story-title {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .story-subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        .cody-speech {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-small);
+        }
+
+        .cody-avatar {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .speech-bubble {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            font-size: 24px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid var(--sky-blue);
+        }
+
+        .game-area {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .door-scene {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xl);
+            min-height: 600px;
+            background: linear-gradient(135deg, #E8F4F8, #D4E9F7);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            position: relative;
+        }
+
+        .door-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+        }
+
+        .magic-door {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            border-radius: var(--radius-lg);
+            border: 8px solid #654321;
+            position: relative;
+            transition: all 0.5s ease;
+            box-shadow: var(--shadow-large);
+        }
+
+        .magic-door.open {
+            transform: perspective(1000px) rotateY(-90deg);
+            transform-origin: left;
+        }
+
+        .door-handle {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: gold;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .door-window {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            background: rgba(135, 206, 235, 0.5);
+            border-radius: 50%;
+            border: 6px solid #654321;
+        }
+
+        .cody-guard {
+            font-size: 100px;
+            position: absolute;
+            left: -120px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+
+        .cody-guard.happy {
+            animation: guardHappy 0.5s ease;
+        }
+
+        .cody-guard.sad {
+            animation: guardSad 0.5s ease;
+        }
+
+        @keyframes guardHappy {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.2) rotate(10deg); }
+        }
+
+        @keyframes guardSad {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            25% { transform: translateY(-50%) translateX(-10px); }
+            75% { transform: translateY(-50%) translateX(10px); }
+        }
+
+        .door-status {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            font-weight: bold;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            background: var(--white);
+            box-shadow: var(--shadow-small);
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .door-status.allowed {
+            color: var(--success-green);
+            border: 4px solid var(--success-green);
+        }
+
+        .door-status.denied {
+            color: var(--error-red);
+            border: 4px solid var(--error-red);
+        }
+
+        .controls-panel {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            width: 100%;
+            max-width: 600px;
+            box-shadow: var(--shadow-small);
+        }
+
+        .challenge-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .challenge-rule {
+            background: var(--sunshine);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .input-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .input-label {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .input-control {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .slider-container {
+            flex: 1;
+        }
+
+        .slider {
+            width: 100%;
+            height: 20px;
+            border-radius: 10px;
+            background: var(--sky-blue);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--cody-blue);
+            cursor: pointer;
+            box-shadow: var(--shadow-small);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--cody-blue);
+            cursor: pointer;
+            box-shadow: var(--shadow-small);
+            border: none;
+        }
+
+        .value-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            min-width: 80px;
+            text-align: center;
+            background: var(--sky-blue);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-md);
+        }
+
+        .text-input {
+            flex: 1;
+            padding: var(--spacing-md);
+            font-size: 24px;
+            border: 4px solid var(--cody-blue);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .check-button {
+            width: 100%;
+            padding: var(--spacing-lg);
+            font-size: 32px;
+            font-weight: bold;
+            background: var(--cody-blue);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+        }
+
+        .check-button:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .check-button:active {
+            transform: translateY(0);
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-small);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .progress-label {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .progress-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--cody-blue);
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .challenge-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 4px solid transparent;
+            box-shadow: var(--shadow-small);
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .challenge-card.active {
+            border-color: var(--cody-blue);
+            background: var(--sky-blue);
+        }
+
+        .challenge-card.completed {
+            border-color: var(--success-green);
+            background: var(--mint-green);
+        }
+
+        .challenge-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .challenge-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: var(--shadow-small);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-btn.secondary {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .completion-modal.active {
+            display: flex;
+        }
+
+        .completion-content {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 600px;
+            text-align: center;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .completion-icon {
+            font-size: 120px;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 1s infinite;
+        }
+
+        .completion-title {
+            font-size: 48px;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .completion-message {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stars-earned {
+            font-size: 72px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 40px;
+            }
+
+            .story-subtitle {
+                font-size: 22px;
+            }
+
+            .door-container {
+                width: 200px;
+                height: 300px;
+            }
+
+            .cody-guard {
+                font-size: 60px;
+                left: -80px;
+            }
+
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="../profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="../dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="../leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="story-container">
+        <!-- Story Header -->
+        <section class="story-header fade-in">
+            <div class="story-title">🚪 The Magic Door Keeper</div>
+            <div class="story-subtitle">Learn about Comparing Things!</div>
+        </section>
+
+        <!-- Cody's Instructions -->
+        <section class="cody-speech fade-in">
+            <div class="cody-avatar">🤖</div>
+            <div class="speech-bubble" id="codyMessage">
+                Hi! I'm guarding this magic door! 🚪 The door has special rules. 
+                It only opens when the rules are followed! Try different challenges to see when the door opens. 
+                Can you figure out all the rules? 🎯
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section fade-in">
+            <div class="progress-info">
+                <div class="progress-item">
+                    <div class="progress-icon">✅</div>
+                    <div class="progress-value" id="challengesSolved">0</div>
+                    <div class="progress-label">Challenges Solved</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">🎯</div>
+                    <div class="progress-value" id="totalChallenges">6</div>
+                    <div class="progress-label">Total Challenges</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">⭐</div>
+                    <div class="progress-value" id="starsPreview">0</div>
+                    <div class="progress-label">Stars</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Challenges Selection -->
+        <section class="game-area fade-in">
+            <h2 style="text-align: center; font-size: 32px; color: var(--cody-blue); margin-bottom: var(--spacing-lg);">
+                Choose a Challenge! 🎮
+            </h2>
+            <div class="challenges-grid" id="challengesGrid">
+                <!-- Challenges will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Door Scene -->
+        <section class="game-area fade-in">
+            <div class="door-scene">
+                <div class="door-container">
+                    <div class="door-status" id="doorStatus">Ready!</div>
+                    <div class="cody-guard" id="codyGuard">🤖</div>
+                    <div class="magic-door" id="magicDoor">
+                        <div class="door-window"></div>
+                        <div class="door-handle"></div>
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <div class="challenge-title" id="challengeTitle">Select a challenge above!</div>
+                    <div class="challenge-rule" id="challengeRule">Choose a challenge to start!</div>
+                    <div id="controlsContainer">
+                        <!-- Controls will be loaded based on challenge -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="action-buttons">
+            <button class="mcq-button" id="mcqButton" onclick="MCQController.showMCQ()">
+                <span>📝</span>
+                <span>Take Quiz</span>
+            </button>
+            <button class="action-btn secondary" onclick="resetProgress()">
+                <span>🔄</span>
+                <span>Reset Progress</span>
+            </button>
+            <button class="action-btn secondary" onclick="checkCompletion()">
+                <span>✅</span>
+                <span>Check My Work</span>
+            </button>
+            <button class="action-btn secondary" onclick="goBack()">
+                <span>🏠</span>
+                <span>Back to Dashboard</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Completion Modal -->
+    <div class="completion-modal" id="completionModal">
+        <div class="completion-content">
+            <div class="completion-icon">🎉</div>
+            <div class="completion-title">Door Master!</div>
+            <div class="completion-message" id="completionMessage">
+                You solved all the door challenges!
+            </div>
+            <div class="stars-earned" id="starsEarned">⭐⭐⭐</div>
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="completeStory()" style="background: var(--success-green); color: var(--white);">
+                    <span>🏆</span>
+                    <span>Continue</span>
+                </button>
+                <button class="action-btn secondary" onclick="playAgain()">
+                    <span>🔄</span>
+                    <span>Try Again</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MCQ Modal -->
+    <div class="mcq-modal" id="mcqModal">
+        <div class="mcq-content">
+            <button class="mcq-close" onclick="MCQController.closeMCQ()">×</button>
+            <div class="mcq-header">
+                <div class="mcq-title">📝 Knowledge Check!</div>
+                <div class="mcq-subtitle">Test what you learned about Comparing</div>
+            </div>
+            <div id="mcqQuestionContainer">
+                <!-- Questions will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+    <script src="../js/mcq.js"></script>
+    <script>
+        // Game state
+        const gameState = {
+            currentChallenge: null,
+            challengesSolved: new Set(),
+            attempts: 0,
+            completed: false
+        };
+
+        // Challenge definitions
+        const challenges = [
+            {
+                id: 1,
+                icon: '📏',
+                name: 'Height Check',
+                title: 'Height Challenge',
+                rule: 'You must be TALLER than 120cm to enter!',
+                type: 'slider',
+                inputLabel: '📏 Your Height',
+                min: 80,
+                max: 180,
+                unit: 'cm',
+                check: (value) => value > 120,
+                successMsg: '✅ You\'re tall enough! Door opens!',
+                failMsg: '❌ Too short! You need to be taller than 120cm!'
+            },
+            {
+                id: 2,
+                icon: '🎂',
+                name: 'Age Check',
+                title: 'Age Challenge',
+                rule: 'You must be 10 years old or OLDER to enter!',
+                type: 'slider',
+                inputLabel: '🎂 Your Age',
+                min: 5,
+                max: 15,
+                unit: 'years',
+                check: (value) => value >= 10,
+                successMsg: '✅ You\'re old enough! Door opens!',
+                failMsg: '❌ Too young! You need to be 10 or older!'
+            },
+            {
+                id: 3,
+                icon: '🔑',
+                name: 'Password Check',
+                title: 'Password Challenge',
+                rule: 'The password must be EXACTLY "MAGIC" to enter!',
+                type: 'text',
+                inputLabel: '🔑 Enter Password',
+                placeholder: 'Type password here',
+                check: (value) => value.toUpperCase() === 'MAGIC',
+                successMsg: '✅ Correct password! Door opens!',
+                failMsg: '❌ Wrong password! Try "MAGIC"!'
+            },
+            {
+                id: 4,
+                icon: '⚖️',
+                name: 'Weight Limit',
+                title: 'Weight Challenge',
+                rule: 'You must weigh LESS than 50kg to enter!',
+                type: 'slider',
+                inputLabel: '⚖️ Your Weight',
+                min: 20,
+                max: 80,
+                unit: 'kg',
+                check: (value) => value < 50,
+                successMsg: '✅ Light enough! Door opens!',
+                failMsg: '❌ Too heavy! You need to weigh less than 50kg!'
+            },
+            {
+                id: 5,
+                icon: '🎫',
+                name: 'Ticket Number',
+                title: 'Ticket Challenge',
+                rule: 'Your ticket number must NOT be 13 to enter!',
+                type: 'slider',
+                inputLabel: '🎫 Ticket Number',
+                min: 1,
+                max: 20,
+                unit: '',
+                check: (value) => value !== 13,
+                successMsg: '✅ Good ticket number! Door opens!',
+                failMsg: '❌ Unlucky number 13! Try a different number!'
+            },
+            {
+                id: 6,
+                icon: '🌡️',
+                name: 'Temperature',
+                title: 'Temperature Challenge',
+                rule: 'Temperature must be 25°C or LESS to enter!',
+                type: 'slider',
+                inputLabel: '🌡️ Temperature',
+                min: 15,
+                max: 35,
+                unit: '°C',
+                check: (value) => value <= 25,
+                successMsg: '✅ Cool enough! Door opens!',
+                failMsg: '❌ Too hot! Temperature must be 25°C or less!'
+            }
+        ];
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+            // Initialize MCQ system
+            MCQController.init(6);
+        });
+
+        function initializeGame() {
+            // Check if profile exists
+            const profile = ProfileManager.getProfile();
+            if (!profile) {
+                alert('Please create your profile first!');
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Load challenges
+            loadChallenges();
+            updateProgress();
+        }
+
+        function loadChallenges() {
+            const grid = document.getElementById('challengesGrid');
+            grid.innerHTML = '';
+
+            challenges.forEach(challenge => {
+                const card = document.createElement('div');
+                card.className = 'challenge-card';
+                if (gameState.challengesSolved.has(challenge.id)) {
+                    card.classList.add('completed');
+                }
+                if (gameState.currentChallenge?.id === challenge.id) {
+                    card.classList.add('active');
+                }
+
+                card.innerHTML = `
+                    <div class="challenge-icon">${challenge.icon}</div>
+                    <div class="challenge-name">${challenge.name}</div>
+                    ${gameState.challengesSolved.has(challenge.id) ? '<div style="font-size: 32px;">✅</div>' : ''}
+                `;
+                card.onclick = () => selectChallenge(challenge);
+                grid.appendChild(card);
+            });
+        }
+
+        function selectChallenge(challenge) {
+            gameState.currentChallenge = challenge;
+            loadChallenges(); // Refresh to show active state
+
+            // Update UI
+            document.getElementById('challengeTitle').textContent = challenge.title;
+            document.getElementById('challengeRule').textContent = challenge.rule;
+
+            // Reset door
+            const door = document.getElementById('magicDoor');
+            const status = document.getElementById('doorStatus');
+            const guard = document.getElementById('codyGuard');
+            
+            door.classList.remove('open');
+            status.textContent = 'Ready!';
+            status.className = 'door-status';
+            guard.className = 'cody-guard';
+
+            // Load controls
+            loadControls(challenge);
+
+            // Update message
+            document.getElementById('codyMessage').textContent = `Let's try the ${challenge.name} challenge! ${challenge.rule}`;
+
+            // Play sound
+            if (window.Codeville) {
+                window.Codeville.playSound('click');
+            }
+        }
+
+        function loadControls(challenge) {
+            const container = document.getElementById('controlsContainer');
+            
+            if (challenge.type === 'slider') {
+                container.innerHTML = `
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>${challenge.inputLabel}</span>
+                        </div>
+                        <div class="input-control">
+                            <div class="slider-container">
+                                <input type="range" 
+                                    class="slider" 
+                                    id="challengeInput"
+                                    min="${challenge.min}" 
+                                    max="${challenge.max}" 
+                                    value="${Math.floor((challenge.min + challenge.max) / 2)}"
+                                    oninput="updateValue(this.value)">
+                            </div>
+                            <div class="value-display" id="valueDisplay">
+                                ${Math.floor((challenge.min + challenge.max) / 2)}${challenge.unit}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="check-button" onclick="checkDoor()">
+                        <span>🚪</span>
+                        <span>Try to Open Door!</span>
+                    </button>
+                `;
+            } else if (challenge.type === 'text') {
+                container.innerHTML = `
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>${challenge.inputLabel}</span>
+                        </div>
+                        <div class="input-control">
+                            <input type="text" 
+                                class="text-input" 
+                                id="challengeInput"
+                                placeholder="${challenge.placeholder}"
+                                onkeypress="if(event.key==='Enter') checkDoor()">
+                        </div>
+                    </div>
+                    <button class="check-button" onclick="checkDoor()">
+                        <span>🚪</span>
+                        <span>Try to Open Door!</span>
+                    </button>
+                `;
+            }
+        }
+
+        function updateValue(value) {
+            const challenge = gameState.currentChallenge;
+            document.getElementById('valueDisplay').textContent = value + challenge.unit;
+        }
+
+        function checkDoor() {
+            if (!gameState.currentChallenge) {
+                alert('Please select a challenge first!');
+                return;
+            }
+
+            const challenge = gameState.currentChallenge;
+            const input = document.getElementById('challengeInput');
+            let value;
+
+            if (challenge.type === 'slider') {
+                value = parseInt(input.value);
+            } else {
+                value = input.value.trim();
+                if (!value) {
+                    alert('Please enter a value!');
+                    return;
+                }
+            }
+
+            gameState.attempts++;
+
+            const door = document.getElementById('magicDoor');
+            const status = document.getElementById('doorStatus');
+            const guard = document.getElementById('codyGuard');
+
+            if (challenge.check(value)) {
+                // Success!
+                door.classList.add('open');
+                status.textContent = '✅ OPEN!';
+                status.className = 'door-status allowed';
+                guard.className = 'cody-guard happy';
+
+                // Mark as solved
+                if (!gameState.challengesSolved.has(challenge.id)) {
+                    gameState.challengesSolved.add(challenge.id);
+                    updateProgress();
+                    loadChallenges();
+                }
+
+                // Update message
+                document.getElementById('codyMessage').textContent = challenge.successMsg + ' Great job! 🎉';
+
+                // Play success sound
+                if (window.Codeville) {
+                    window.Codeville.playSound('success');
+                }
+
+                // Auto-close door after 2 seconds
+                setTimeout(() => {
+                    door.classList.remove('open');
+                    status.textContent = 'Ready!';
+                    status.className = 'door-status';
+                    guard.className = 'cody-guard';
+                }, 2000);
+
+            } else {
+                // Failure
+                status.textContent = '❌ CLOSED!';
+                status.className = 'door-status denied';
+                guard.className = 'cody-guard sad';
+
+                // Update message
+                document.getElementById('codyMessage').textContent = challenge.failMsg + ' Try again!';
+
+                // Play error sound
+                if (window.Codeville) {
+                    window.Codeville.playSound('error');
+                }
+
+                // Reset status after 2 seconds
+                setTimeout(() => {
+                    status.textContent = 'Ready!';
+                    status.className = 'door-status';
+                    guard.className = 'cody-guard';
+                }, 2000);
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('challengesSolved').textContent = gameState.challengesSolved.size;
+
+            // Calculate stars
+            let stars = 0;
+            if (gameState.challengesSolved.size >= 3) stars = 1;
+            if (gameState.challengesSolved.size >= 5) stars = 2;
+            if (gameState.challengesSolved.size >= 6) stars = 3;
+
+            document.getElementById('starsPreview').textContent = stars;
+        }
+
+        function checkCompletion() {
+            if (gameState.challengesSolved.size < 3) {
+                alert(`You need to solve at least 3 challenges! You've solved ${gameState.challengesSolved.size}. Keep trying!`);
+                return;
+            }
+
+            // Calculate stars
+            let stars = 1;
+            if (gameState.challengesSolved.size >= 5) stars = 2;
+            if (gameState.challengesSolved.size >= 6) stars = 3;
+
+            // Show completion modal
+            showCompletionModal(stars);
+        }
+
+        function showCompletionModal(stars) {
+            const modal = document.getElementById('completionModal');
+            const messageElement = document.getElementById('completionMessage');
+            const starsElement = document.getElementById('starsEarned');
+
+            let message = '';
+            if (stars === 3) {
+                message = `AMAZING! You solved all ${gameState.challengesSolved.size} challenges! You're a comparison master! 🎉`;
+            } else if (stars === 2) {
+                message = `Fantastic! You solved ${gameState.challengesSolved.size} challenges! You understand comparing! 🚪`;
+            } else {
+                message = `Great job! You solved ${gameState.challengesSolved.size} challenges! You're learning to compare! 🤖`;
+            }
+
+            messageElement.textContent = message;
+            starsElement.textContent = '⭐'.repeat(stars);
+
+            modal.classList.add('active');
+
+            // Store stars for completion
+            gameState.starsEarned = stars;
+
+            // Play success sound and confetti
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+                window.Codeville.createConfetti();
+            }
+        }
+
+        function completeStory() {
+            const stars = gameState.starsEarned || 1;
+
+            // Save progress
+            ProfileManager.completeStory(6, stars);
+
+            // Check for badges
+            if (window.checkBadges) {
+                window.checkBadges();
+            }
+
+            // Redirect to dashboard
+            window.location.href = '../dashboard.html';
+        }
+
+        function playAgain() {
+            const modal = document.getElementById('completionModal');
+            modal.classList.remove('active');
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset? All solved challenges will be cleared.')) {
+                gameState.challengesSolved.clear();
+                gameState.currentChallenge = null;
+                gameState.attempts = 0;
+                
+                // Reset UI
+                loadChallenges();
+                updateProgress();
+                document.getElementById('challengeTitle').textContent = 'Select a challenge above!';
+                document.getElementById('challengeRule').textContent = 'Choose a challenge to start!';
+                document.getElementById('controlsContainer').innerHTML = '';
+                document.getElementById('codyMessage').textContent = 'Let\'s start fresh! Choose a challenge and try to open the door!';
+                
+                // Reset door
+                const door = document.getElementById('magicDoor');
+                const status = document.getElementById('doorStatus');
+                const guard = document.getElementById('codyGuard');
+                
+                door.classList.remove('open');
+                status.textContent = 'Ready!';
+                status.className = 'door-status';
+                guard.className = 'cody-guard';
+                
+                if (window.Codeville) {
+                    window.Codeville.playSound('whoosh');
+                }
+            }
+        }
+
+        function goBack() {
+            if (confirm('Are you sure you want to leave? Your progress will not be saved.')) {
+                window.location.href = '../dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

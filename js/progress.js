@@ -10,7 +10,7 @@ const ProgressTracker = {
         const profile = ProfileManager.getProfile();
         if (!profile) return null;
         
-        const totalStories = 7;
+        const totalStories = 8;
         const completedStories = profile.storiesCompleted.length;
         const totalPossibleStars = totalStories * 3;
         const earnedStars = profile.starsEarned;
@@ -48,9 +48,10 @@ const ProgressTracker = {
             { id: '00', name: "Cody's Toy Sorter", icon: '🎯' },
             { id: 1, name: 'Magic Food Table', icon: '🍕' },
             { id: 2, name: 'Dancing Robot', icon: '🤖' },
-            { id: 3, name: 'Magic Treasure Box', icon: '📦' },
-            { id: 4, name: 'Weather Friend', icon: '🌦️' },
-            { id: 5, name: 'Recipe Robot', icon: '🍳' }
+            { id: 3, name: 'Weather Wardrobe', icon: '🌦️' },
+            { id: 4, name: 'Magic Treasure Box', icon: '📦' },
+            { id: 5, name: 'Recipe Robot', icon: '🍳' },
+            { id: 6, name: 'Magic Door Keeper', icon: '🚪' }
         ];
         
         return stories.map(story => ({
@@ -181,8 +182,8 @@ const ProgressTracker = {
         
         const completedIds = profile.storiesCompleted.map(s => s.storyId);
         
-        // Find first uncompleted story (start with 0, 00, then 1-5)
-        const storyOrder = [0, '00', 1, 2, 3, 4, 5];
+        // Find first uncompleted story (start with 0, 00, then 1-6)
+        const storyOrder = [0, '00', 1, 2, 3, 4, 5, 6];
         for (const id of storyOrder) {
             if (!completedIds.includes(id)) {
                 return id;
@@ -489,15 +490,17 @@ function playStory(storyId) {
 
 function getStorySlug(storyId) {
     const slugs = {
-        0: 'cody-name-tag',
+        '0': 'cody-name-tag',
         '00': 'cody-toy-sorter',
-        1: 'magic-table',
-        2: 'dancing-robot',
-        3: 'magic-box',
-        4: 'weather-friend',
-        5: 'recipe-robot'
+        '1': 'magic-table',
+        '2': 'dancing-robot',
+        '3': 'weather-wardrobe',
+        '4': 'magic-box',
+        '5': 'recipe-robot',
+        '6': 'magic-door-keeper'
     };
-    return slugs[storyId] || 'story';
+    // Convert storyId to string for consistent lookup
+    return slugs[String(storyId)] || 'story';
 }
 
 // Make ProgressTracker available globally

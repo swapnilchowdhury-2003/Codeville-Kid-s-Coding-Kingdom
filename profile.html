@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👤 My Profile - Codeville</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/kid-friendly.css">
+    <style>
+        .profile-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .profile-header {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .profile-avatar {
+            font-size: 120px;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .profile-name {
+            font-size: 48px;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .profile-member-since {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-small);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-icon {
+            font-size: 64px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .badges-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .badges-title {
+            font-size: 40px;
+            color: var(--cody-blue);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .badge-item {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .badge-item:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-small);
+        }
+
+        .badge-icon {
+            font-size: 64px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .badge-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .badge-description {
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        .no-badges {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-light);
+            font-size: 24px;
+        }
+
+        .actions-section {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 22px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-small);
+            font-family: inherit;
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-button.danger {
+            background: #FF6B6B;
+            color: var(--white);
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-title {
+            font-size: 40px;
+            color: var(--cody-blue);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .story-progress-item {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .story-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .story-emoji {
+            font-size: 48px;
+        }
+
+        .story-details h3 {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .story-details p {
+            font-size: 18px;
+            color: var(--text-light);
+        }
+
+        .story-stars {
+            display: flex;
+            gap: var(--spacing-xs);
+            font-size: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-name {
+                font-size: 36px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .badges-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .story-progress-item {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="profile.html" class="nav-link active">👤 Profile</a></li>
+                <li><a href="dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="profile-container">
+        <!-- Profile Header -->
+        <section class="profile-header fade-in">
+            <div class="profile-avatar" id="profileAvatar">🤖</div>
+            <h1 class="profile-name" id="profileName">Loading...</h1>
+            <p class="profile-member-since">Member since <span id="memberSince">...</span></p>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid">
+            <div class="stat-card bounce-in">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value" id="starsEarned">0</div>
+                <div class="stat-label">Stars Earned</div>
+            </div>
+
+            <div class="stat-card bounce-in" style="animation-delay: 0.1s;">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value" id="badgesEarned">0</div>
+                <div class="stat-label">Badges</div>
+            </div>
+
+            <div class="stat-card bounce-in" style="animation-delay: 0.2s;">
+                <div class="stat-icon">📚</div>
+                <div class="stat-value" id="storiesCompleted">0</div>
+                <div class="stat-label">Stories Done</div>
+            </div>
+
+            <div class="stat-card bounce-in" style="animation-delay: 0.3s;">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value" id="currentStreak">0</div>
+                <div class="stat-label">Day Streak</div>
+            </div>
+        </section>
+
+        <!-- Story Progress -->
+        <section class="progress-section fade-in">
+            <h2 class="progress-title">📖 My Story Progress</h2>
+            <div id="storyProgressContainer">
+                <!-- Story progress items will be added here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Badges Section -->
+        <section class="badges-section fade-in">
+            <h2 class="badges-title">🏆 My Badges</h2>
+            <div class="badges-grid" id="badgesContainer">
+                <div class="no-badges">Complete stories to earn badges! 🎯</div>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <section class="actions-section">
+            <button class="action-button" id="editNameBtn">
+                <span>✏️</span>
+                <span>Edit Name</span>
+            </button>
+            <button class="action-button" id="changeAvatarBtn">
+                <span>🎭</span>
+                <span>Change Avatar</span>
+            </button>
+            <button class="action-button" id="exportProfileBtn">
+                <span>💾</span>
+                <span>Export Profile</span>
+            </button>
+            <button class="action-button danger" id="deleteProfileBtn">
+                <span>🗑️</span>
+                <span>Delete Profile</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>Made with ❤️ for young learners | © 2026 Codeville</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+    <script>
+        // Load profile data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfileData();
+            loadStoryProgress();
+        });
+
+        function loadProfileData() {
+            const profile = ProfileManager.getProfile();
+            
+            if (!profile) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update profile display
+            document.getElementById('profileAvatar').textContent = profile.avatar;
+            document.getElementById('profileName').textContent = profile.name;
+            
+            // Update member since
+            const memberDate = new Date(profile.createdAt);
+            document.getElementById('memberSince').textContent = memberDate.toLocaleDateString();
+
+            // Update stats
+            document.getElementById('starsEarned').textContent = profile.starsEarned;
+            document.getElementById('badgesEarned').textContent = profile.badges.length;
+            document.getElementById('storiesCompleted').textContent = profile.storiesCompleted.length;
+            document.getElementById('currentStreak').textContent = profile.streak;
+
+            // Display badges
+            displayBadges(profile.badges);
+        }
+
+        function loadStoryProgress() {
+            const profile = ProfileManager.getProfile();
+            if (!profile) return;
+
+            const stories = [
+                { id: 1, emoji: '🍕', name: 'Magic Food Table', description: 'Learn about lists!' },
+                { id: 2, emoji: '🤖', name: 'Dancing Robot', description: 'Discover loops!' },
+                { id: 3, emoji: '📦', name: 'Magic Treasure Box', description: 'Explore variables!' },
+                { id: 4, emoji: '🌦️', name: 'Weather Friend', description: 'Learn decisions!' },
+                { id: 5, emoji: '🍳', name: 'Recipe Robot', description: 'Understand functions!' }
+            ];
+
+            const container = document.getElementById('storyProgressContainer');
+            container.innerHTML = '';
+
+            stories.forEach(story => {
+                const progress = profile.storiesCompleted.find(s => s.storyId === story.id);
+                const stars = progress ? progress.stars : 0;
+                
+                const item = document.createElement('div');
+                item.className = 'story-progress-item';
+                item.innerHTML = `
+                    <div class="story-info">
+                        <div class="story-emoji">${story.emoji}</div>
+                        <div class="story-details">
+                            <h3>${story.name}</h3>
+                            <p>${story.description}</p>
+                        </div>
+                    </div>
+                    <div class="story-stars">
+                        ${stars >= 1 ? '⭐' : '☆'}
+                        ${stars >= 2 ? '⭐' : '☆'}
+                        ${stars >= 3 ? '⭐' : '☆'}
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        function displayBadges(badges) {
+            const container = document.getElementById('badgesContainer');
+            
+            if (badges.length === 0) {
+                container.innerHTML = '<div class="no-badges">Complete stories to earn badges! 🎯</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            
+            badges.forEach(badge => {
+                const badgeData = Badges[badge.id];
+                if (!badgeData) return;
+                
+                const badgeElement = document.createElement('div');
+                badgeElement.className = 'badge-item';
+                badgeElement.innerHTML = `
+                    <div class="badge-icon">${badgeData.icon}</div>
+                    <div class="badge-name">${badgeData.name}</div>
+                    <div class="badge-description">${badgeData.description}</div>
+                `;
+                
+                container.appendChild(badgeElement);
+            });
+        }
+    </script>
+</body>
+</html>

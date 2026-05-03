@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 My Dashboard - Codeville</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/kid-friendly.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--cody-blue), var(--fun-pink));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .dashboard-greeting {
+            font-size: 48px;
+            margin-bottom: var(--spacing-sm);
+            animation: bounce 2s infinite;
+        }
+
+        .dashboard-subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-box {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-small);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-icon {
+            font-size: 72px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-value {
+            font-size: 56px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            font-size: 22px;
+            color: var(--text-light);
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-title {
+            font-size: 40px;
+            color: var(--cody-blue);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .progress-bar-container {
+            background: var(--sky-blue);
+            border-radius: var(--radius-full);
+            height: 60px;
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--happy-yellow), var(--fun-pink));
+            height: 100%;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--white);
+            transition: width 1s ease;
+            min-width: 60px;
+        }
+
+        .progress-label {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-sm);
+            font-weight: bold;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .story-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-small);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 4px solid transparent;
+        }
+
+        .story-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-large);
+            border-color: var(--cody-blue);
+        }
+
+        .story-card.completed {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+        }
+
+        .story-icon {
+            font-size: 80px;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .story-title {
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .story-description {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .story-stars {
+            font-size: 36px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .story-status {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-full);
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .story-status.completed {
+            background: #4CAF50;
+            color: var(--white);
+        }
+
+        .story-status.locked {
+            background: var(--text-light);
+            color: var(--white);
+        }
+
+        .play-button {
+            width: 100%;
+            padding: var(--spacing-md);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: var(--cody-blue);
+            color: var(--white);
+        }
+
+        .play-button:hover {
+            background: var(--fun-pink);
+            transform: scale(1.05);
+        }
+
+        .milestone-section {
+            background: linear-gradient(135deg, var(--happy-yellow), var(--fun-pink));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .milestone-icon {
+            font-size: 96px;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 2s infinite;
+        }
+
+        .milestone-message {
+            font-size: 32px;
+            color: var(--white);
+            font-weight: bold;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .milestone-progress {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .daily-goal {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-small);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .daily-goal-icon {
+            font-size: 64px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .daily-goal-text {
+            font-size: 24px;
+            color: var(--text-dark);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 22px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-small);
+            font-family: inherit;
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-btn.primary {
+            background: var(--cody-blue);
+            color: var(--white);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-greeting {
+                font-size: 36px;
+            }
+
+            .dashboard-subtitle {
+                font-size: 22px;
+            }
+
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="dashboard.html" class="nav-link active">📊 Dashboard</a></li>
+                <li><a href="leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+        <!-- Dashboard Header -->
+        <section class="dashboard-header fade-in">
+            <div class="dashboard-greeting" id="dashboardGreeting">Welcome back! 🎉</div>
+            <div class="dashboard-subtitle">Let's continue your coding adventure!</div>
+        </section>
+
+        <!-- Stats Overview -->
+        <section class="stats-overview">
+            <div class="stat-box bounce-in">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value" id="totalStars">0</div>
+                <div class="stat-label">Total Stars</div>
+            </div>
+
+            <div class="stat-box bounce-in" style="animation-delay: 0.1s;">
+                <div class="stat-icon">📚</div>
+                <div class="stat-value" id="storiesCompleted">0/5</div>
+                <div class="stat-label">Stories Done</div>
+            </div>
+
+            <div class="stat-box bounce-in" style="animation-delay: 0.2s;">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value" id="totalBadges">0</div>
+                <div class="stat-label">Badges</div>
+            </div>
+
+            <div class="stat-box bounce-in" style="animation-delay: 0.3s;">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value" id="currentStreak">0</div>
+                <div class="stat-label">Day Streak</div>
+            </div>
+        </section>
+
+        <!-- Daily Goal -->
+        <section class="daily-goal fade-in">
+            <div class="daily-goal-icon" id="dailyGoalIcon">📅</div>
+            <div class="daily-goal-text" id="dailyGoalText">Loading...</div>
+        </section>
+
+        <!-- Progress Bars -->
+        <section class="progress-section fade-in">
+            <h2 class="section-title">📈 Your Progress</h2>
+            
+            <div class="progress-label">Story Completion</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="storyProgressBar" style="width: 0%;">0%</div>
+            </div>
+
+            <div class="progress-label">Star Collection</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="starProgressBar" style="width: 0%;">0%</div>
+            </div>
+        </section>
+
+        <!-- Next Milestone -->
+        <section class="milestone-section fade-in" id="nextMilestone">
+            <div class="milestone-icon">🎯</div>
+            <div class="milestone-message">Loading next milestone...</div>
+        </section>
+
+        <!-- Stories Grid -->
+        <section class="progress-section fade-in">
+            <h2 class="section-title">🎮 Learning Stories</h2>
+            <div class="stories-grid" id="storiesProgressContainer">
+                <!-- Stories will be loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <button class="action-btn primary" onclick="window.location.href='profile.html'">
+                <span>👤</span>
+                <span>View Profile</span>
+            </button>
+            <button class="action-btn" onclick="window.location.href='leaderboard.html'">
+                <span>🏆</span>
+                <span>Leaderboard</span>
+            </button>
+            <button class="action-btn" onclick="ProgressTracker.exportProgressReport()">
+                <span>📄</span>
+                <span>Download Report</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>Made with ❤️ for young learners | © 2026 Codeville</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/progress.js"></script>
+    <script>
+        // Dashboard-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+
+        function loadDashboardData() {
+            const profile = ProfileManager.getProfile();
+            
+            if (!profile) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update greeting
+            const greeting = getGreeting();
+            document.getElementById('dashboardGreeting').textContent = `${greeting}, ${profile.name}! ${profile.avatar}`;
+
+            // Update streak
+            ProfileManager.updateStreak();
+
+            // Check for new badges
+            checkBadges();
+
+            // Load all dashboard data
+            loadStats();
+            loadDailyGoal();
+            loadProgressBars();
+            loadNextMilestone();
+            loadStoriesGrid();
+        }
+
+        function loadStats() {
+            const progress = ProgressTracker.getOverallProgress();
+            if (!progress) return;
+
+            document.getElementById('totalStars').textContent = progress.starsEarned;
+            document.getElementById('storiesCompleted').textContent = `${progress.storiesCompleted}/${progress.totalStories}`;
+            document.getElementById('totalBadges').textContent = progress.badges;
+            document.getElementById('currentStreak').textContent = progress.streak;
+        }
+
+        function loadDailyGoal() {
+            const goal = ProgressTracker.getDailyGoal();
+            if (!goal) return;
+
+            const iconElement = document.getElementById('dailyGoalIcon');
+            const textElement = document.getElementById('dailyGoalText');
+
+            if (goal.completed) {
+                iconElement.textContent = '✅';
+                textElement.textContent = goal.message;
+            } else {
+                iconElement.textContent = '📅';
+                textElement.textContent = goal.message;
+            }
+        }
+
+        function loadProgressBars() {
+            const progress = ProgressTracker.getOverallProgress();
+            if (!progress) return;
+
+            // Animate progress bars
+            setTimeout(() => {
+                const storyBar = document.getElementById('storyProgressBar');
+                const starBar = document.getElementById('starProgressBar');
+
+                storyBar.style.width = progress.storyProgress + '%';
+                storyBar.textContent = progress.storyProgress + '%';
+
+                starBar.style.width = progress.starProgress + '%';
+                starBar.textContent = progress.starProgress + '%';
+            }, 300);
+        }
+
+        function loadNextMilestone() {
+            const milestone = ProgressTracker.getNextMilestone();
+            if (!milestone) return;
+
+            const container = document.getElementById('nextMilestone');
+
+            if (milestone.completed) {
+                container.innerHTML = `
+                    <div class="milestone-icon">${milestone.icon}</div>
+                    <div class="milestone-message">${milestone.message}</div>
+                `;
+            } else {
+                const percentage = Math.round((milestone.progress / milestone.target) * 100);
+                container.innerHTML = `
+                    <div class="milestone-icon">${milestone.icon}</div>
+                    <div class="milestone-message">${milestone.message}</div>
+                    <div class="milestone-progress">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width: ${percentage}%">
+                                ${milestone.progress}/${milestone.target}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function loadStoriesGrid() {
+            const stories = ProgressTracker.getAllStoriesProgress();
+            const container = document.getElementById('storiesProgressContainer');
+
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            stories.forEach(story => {
+                const card = createStoryCard(story);
+                container.appendChild(card);
+            });
+        }
+
+        function createStoryCard(story) {
+            const card = document.createElement('div');
+            card.className = 'story-card' + (story.progress.completed ? ' completed' : '');
+
+            const stars = '⭐'.repeat(story.progress.stars) + '☆'.repeat(3 - story.progress.stars);
+            const status = story.progress.completed ? 'Completed' : 'Not Started';
+            const statusClass = story.progress.completed ? 'completed' : 'locked';
+            const buttonText = story.progress.completed ? '▶️ Play Again' : '🚀 Start Story';
+
+            card.innerHTML = `
+                <div class="story-icon">${story.icon}</div>
+                <h3 class="story-title">${story.name}</h3>
+                <div class="story-stars">${stars}</div>
+                <div class="story-status ${statusClass}">${status}</div>
+                <button class="play-button" onclick="playStory(${story.id})">
+                    ${buttonText}
+                </button>
+            `;
+
+            return card;
+        }
+
+        function playStory(storyId) {
+            const slugs = {
+                1: 'magic-table',
+                2: 'dancing-robot',
+                3: 'magic-box',
+                4: 'weather-friend',
+                5: 'recipe-robot'
+            };
+            
+            const slug = slugs[storyId];
+            window.location.href = `stories/story${storyId}-${slug}.html`;
+        }
+
+        function getGreeting() {
+            const hour = new Date().getHours();
+            if (hour < 12) return 'Good morning';
+            if (hour < 18) return 'Good afternoon';
+            return 'Good evening';
+        }
+    </script>
+</body>
+</html>

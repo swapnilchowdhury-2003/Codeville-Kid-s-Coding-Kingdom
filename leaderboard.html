@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 Leaderboard - Codeville</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/kid-friendly.css">
+    <style>
+        .leaderboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .leaderboard-header {
+            background: linear-gradient(135deg, var(--happy-yellow), var(--fun-pink));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .leaderboard-title {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+            animation: bounce 2s infinite;
+        }
+
+        .leaderboard-subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        .your-rank-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+            border: 4px solid var(--cody-blue);
+        }
+
+        .rank-badge {
+            font-size: 96px;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 2s infinite;
+        }
+
+        .rank-text {
+            font-size: 40px;
+            color: var(--cody-blue);
+            font-weight: bold;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .rank-details {
+            font-size: 24px;
+            color: var(--text-light);
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: var(--white);
+            color: var(--text-dark);
+            box-shadow: var(--shadow-small);
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .tab-button.active {
+            background: var(--cody-blue);
+            color: var(--white);
+        }
+
+        .leaderboard-list {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-small);
+        }
+
+        .leaderboard-item.current-user {
+            background: linear-gradient(135deg, var(--happy-yellow), var(--fun-pink));
+            border: 3px solid var(--cody-blue);
+        }
+
+        .leaderboard-item.top-1 {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+
+        .leaderboard-item.top-2 {
+            background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
+        }
+
+        .leaderboard-item.top-3 {
+            background: linear-gradient(135deg, #CD7F32, #B87333);
+        }
+
+        .rank-number {
+            font-size: 48px;
+            font-weight: bold;
+            min-width: 80px;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        .user-avatar {
+            font-size: 64px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .user-stats {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .user-score {
+            font-size: 40px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            min-width: 100px;
+            text-align: right;
+        }
+
+        .medal-icon {
+            font-size: 56px;
+        }
+
+        .empty-leaderboard {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-light);
+            font-size: 24px;
+        }
+
+        .info-box {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .info-box-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .info-box-text {
+            font-size: 22px;
+            color: var(--text-dark);
+        }
+
+        .share-section {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: var(--cody-blue);
+            color: var(--white);
+            box-shadow: var(--shadow-small);
+        }
+
+        .share-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            background: var(--fun-pink);
+        }
+
+        @media (max-width: 768px) {
+            .leaderboard-title {
+                font-size: 40px;
+            }
+
+            .leaderboard-subtitle {
+                font-size: 22px;
+            }
+
+            .leaderboard-item {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .rank-number {
+                min-width: 60px;
+                font-size: 36px;
+            }
+
+            .user-avatar {
+                font-size: 48px;
+            }
+
+            .user-name {
+                font-size: 24px;
+            }
+
+            .user-score {
+                font-size: 32px;
+                width: 100%;
+                text-align: center;
+                margin-top: var(--spacing-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="leaderboard.html" class="nav-link active">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="leaderboard-container">
+        <!-- Leaderboard Header -->
+        <section class="leaderboard-header fade-in">
+            <div class="leaderboard-title">🏆 Leaderboard 🏆</div>
+            <div class="leaderboard-subtitle">See how you compare with other learners!</div>
+        </section>
+
+        <!-- Your Rank Card -->
+        <section class="your-rank-card bounce-in" id="yourRankCard">
+            <div class="rank-badge">🎯</div>
+            <div class="rank-text">Your Rank: #1</div>
+            <div class="rank-details">You're doing amazing! Keep learning! 🌟</div>
+        </section>
+
+        <!-- Info Box -->
+        <section class="info-box fade-in">
+            <div class="info-box-icon">ℹ️</div>
+            <div class="info-box-text">
+                This is a demo leaderboard. In the full version, you'll compete with friends and other learners!
+            </div>
+        </section>
+
+        <!-- Leaderboard Tabs -->
+        <section class="leaderboard-tabs">
+            <button class="tab-button active" data-tab="stars" onclick="switchTab('stars')">
+                ⭐ Most Stars
+            </button>
+            <button class="tab-button" data-tab="stories" onclick="switchTab('stories')">
+                📚 Stories Completed
+            </button>
+            <button class="tab-button" data-tab="streak" onclick="switchTab('streak')">
+                🔥 Longest Streak
+            </button>
+        </section>
+
+        <!-- Leaderboard List -->
+        <section class="leaderboard-list fade-in" id="leaderboardList">
+            <!-- Leaderboard items will be loaded here -->
+        </section>
+
+        <!-- Share Section -->
+        <section class="share-section">
+            <button class="share-button" onclick="shareProgress()">
+                <span>📤</span>
+                <span>Share My Progress</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>Made with ❤️ for young learners | © 2026 Codeville</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/progress.js"></script>
+    <script>
+        let currentTab = 'stars';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLeaderboard();
+        });
+
+        function loadLeaderboard() {
+            const profile = ProfileManager.getProfile();
+            
+            if (!profile) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Update your rank card
+            updateYourRank(profile);
+
+            // Load demo leaderboard data
+            loadDemoLeaderboard();
+        }
+
+        function updateYourRank(profile) {
+            const card = document.getElementById('yourRankCard');
+            
+            const rank = 1; // Demo rank
+            const rankEmoji = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '🎯';
+            
+            card.innerHTML = `
+                <div class="rank-badge">${rankEmoji}</div>
+                <div class="rank-text">Your Rank: #${rank}</div>
+                <div class="rank-details">
+                    ${profile.starsEarned} stars • ${profile.storiesCompleted.length} stories • ${profile.streak} day streak
+                </div>
+            `;
+        }
+
+        function loadDemoLeaderboard() {
+            const profile = ProfileManager.getProfile();
+            
+            // Create demo data including current user
+            const demoUsers = [
+                {
+                    name: profile.name,
+                    avatar: profile.avatar,
+                    stars: profile.starsEarned,
+                    stories: profile.storiesCompleted.length,
+                    streak: profile.streak,
+                    isCurrentUser: true
+                },
+                {
+                    name: 'Emma',
+                    avatar: '🐱',
+                    stars: 15,
+                    stories: 5,
+                    streak: 12
+                },
+                {
+                    name: 'Liam',
+                    avatar: '🦁',
+                    stars: 14,
+                    stories: 5,
+                    streak: 8
+                },
+                {
+                    name: 'Sophia',
+                    avatar: '🦄',
+                    stars: 13,
+                    stories: 5,
+                    streak: 15
+                },
+                {
+                    name: 'Noah',
+                    avatar: '🤖',
+                    stars: 12,
+                    stories: 4,
+                    streak: 6
+                },
+                {
+                    name: 'Olivia',
+                    avatar: '🐼',
+                    stars: 11,
+                    stories: 4,
+                    streak: 10
+                },
+                {
+                    name: 'Ethan',
+                    avatar: '🐶',
+                    stars: 10,
+                    stories: 4,
+                    streak: 5
+                },
+                {
+                    name: 'Ava',
+                    avatar: '🐸',
+                    stars: 9,
+                    stories: 3,
+                    streak: 7
+                }
+            ];
+
+            displayLeaderboard(demoUsers);
+        }
+
+        function displayLeaderboard(users) {
+            const container = document.getElementById('leaderboardList');
+            
+            // Sort users based on current tab
+            let sortedUsers = [...users];
+            
+            if (currentTab === 'stars') {
+                sortedUsers.sort((a, b) => b.stars - a.stars);
+            } else if (currentTab === 'stories') {
+                sortedUsers.sort((a, b) => b.stories - a.stories);
+            } else if (currentTab === 'streak') {
+                sortedUsers.sort((a, b) => b.streak - a.streak);
+            }
+
+            container.innerHTML = '';
+
+            sortedUsers.forEach((user, index) => {
+                const rank = index + 1;
+                const item = createLeaderboardItem(user, rank);
+                container.appendChild(item);
+            });
+        }
+
+        function createLeaderboardItem(user, rank) {
+            const item = document.createElement('div');
+            
+            let itemClass = 'leaderboard-item';
+            if (user.isCurrentUser) {
+                itemClass += ' current-user';
+            } else if (rank === 1) {
+                itemClass += ' top-1';
+            } else if (rank === 2) {
+                itemClass += ' top-2';
+            } else if (rank === 3) {
+                itemClass += ' top-3';
+            }
+            
+            item.className = itemClass;
+
+            const rankDisplay = rank <= 3 ? 
+                (rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉') : 
+                `#${rank}`;
+
+            let scoreValue, scoreLabel;
+            if (currentTab === 'stars') {
+                scoreValue = user.stars;
+                scoreLabel = '⭐';
+            } else if (currentTab === 'stories') {
+                scoreValue = user.stories;
+                scoreLabel = '📚';
+            } else {
+                scoreValue = user.streak;
+                scoreLabel = '🔥';
+            }
+
+            item.innerHTML = `
+                <div class="rank-number">${rankDisplay}</div>
+                <div class="user-avatar">${user.avatar}</div>
+                <div class="user-info">
+                    <div class="user-name">${user.name}${user.isCurrentUser ? ' (You)' : ''}</div>
+                    <div class="user-stats">
+                        ⭐ ${user.stars} stars • 📚 ${user.stories} stories • 🔥 ${user.streak} days
+                    </div>
+                </div>
+                <div class="user-score">${scoreLabel} ${scoreValue}</div>
+            `;
+
+            return item;
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-tab') === tab) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Reload leaderboard with new sorting
+            loadDemoLeaderboard();
+
+            // Play sound
+            if (window.Codeville) {
+                window.Codeville.playSound('click');
+            }
+        }
+
+        function shareProgress() {
+            const profile = ProfileManager.getProfile();
+            
+            const shareText = `🏰 I'm learning to code with Codeville!\n\n` +
+                `⭐ ${profile.starsEarned} stars earned\n` +
+                `📚 ${profile.storiesCompleted.length} stories completed\n` +
+                `🔥 ${profile.streak} day streak\n\n` +
+                `Join me in this coding adventure! 🚀`;
+
+            // Try to use Web Share API if available
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Codeville Progress',
+                    text: shareText
+                }).catch(err => {
+                    console.log('Share cancelled or failed:', err);
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(shareText).then(() => {
+                    if (window.Codeville) {
+                        window.Codeville.showMessage('Progress copied to clipboard! 📋', 'success');
+                    } else {
+                        alert('Progress copied to clipboard! 📋');
+                    }
+                }).catch(err => {
+                    alert('Unable to share. Please try again!');
+                });
+            }
+
+            // Play sound
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+            }
+        }
+    </script>
+</body>
+</html>

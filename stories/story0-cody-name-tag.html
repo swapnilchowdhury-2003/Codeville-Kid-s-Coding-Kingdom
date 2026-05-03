@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏷️ Cody's Name Tag - Codeville</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/kid-friendly.css">
+    <style>
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, var(--cody-blue), var(--playful-purple));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .story-title {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .story-subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        .cody-speech {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-small);
+        }
+
+        .cody-avatar {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .speech-bubble {
+            background: var(--cody-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            font-size: 24px;
+            line-height: 1.6;
+            color: var(--white);
+            position: relative;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid var(--cody-blue);
+        }
+
+        .game-area {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .name-tag-scene {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .cody-character {
+            font-size: 200px;
+            margin-bottom: var(--spacing-lg);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .name-tag {
+            background: var(--white);
+            border: 6px solid var(--cody-blue);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            min-width: 400px;
+            text-align: center;
+            box-shadow: var(--shadow-large);
+            position: relative;
+        }
+
+        .name-tag::before {
+            content: '🏷️';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 60px;
+        }
+
+        .tag-label {
+            font-size: 28px;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-sm);
+            font-weight: bold;
+        }
+
+        .tag-value {
+            font-size: 72px;
+            color: var(--cody-blue);
+            font-weight: bold;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .tag-value.changing {
+            animation: popChange 0.5s ease;
+        }
+
+        @keyframes popChange {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3) rotate(5deg); }
+            100% { transform: scale(1); }
+        }
+
+        .input-section {
+            background: var(--sunshine);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .input-label {
+            font-size: 32px;
+            color: var(--cody-blue);
+            font-weight: bold;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .name-input {
+            width: 100%;
+            max-width: 500px;
+            padding: var(--spacing-lg);
+            font-size: 36px;
+            border: 4px solid var(--cody-blue);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-family: inherit;
+            font-weight: bold;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: var(--fun-pink);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .suggestion-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .suggestion-btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 28px;
+            font-weight: bold;
+            border: 3px solid var(--cody-blue);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: var(--white);
+            color: var(--cody-blue);
+        }
+
+        .suggestion-btn:hover {
+            background: var(--cody-blue);
+            color: var(--white);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .update-btn {
+            padding: var(--spacing-lg) var(--spacing-xl);
+            font-size: 32px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: var(--success-green);
+            color: var(--white);
+            box-shadow: var(--shadow-small);
+        }
+
+        .update-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .update-btn:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-small);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .progress-label {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .progress-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--cody-blue);
+        }
+
+        .concept-explanation {
+            background: var(--sky-blue);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .concept-title {
+            font-size: 36px;
+            color: var(--cody-blue);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .concept-text {
+            font-size: 24px;
+            color: var(--text-dark);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: var(--shadow-small);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-btn.secondary {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .completion-modal.active {
+            display: flex;
+        }
+
+        .completion-content {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 600px;
+            text-align: center;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .completion-icon {
+            font-size: 120px;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 1s infinite;
+        }
+
+        .completion-title {
+            font-size: 48px;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .completion-message {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stars-earned {
+            font-size: 72px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 40px;
+            }
+
+            .story-subtitle {
+                font-size: 22px;
+            }
+
+            .cody-character {
+                font-size: 120px;
+            }
+
+            .name-tag {
+                min-width: 280px;
+            }
+
+            .tag-value {
+                font-size: 48px;
+            }
+
+            .name-input {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="../profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="../dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="../leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="story-container">
+        <!-- Story Header -->
+        <section class="story-header fade-in">
+            <div class="story-title">🏷️ Cody's Name Tag</div>
+            <div class="story-subtitle">Learn about Storing Information!</div>
+        </section>
+
+        <!-- Cody's Instructions -->
+        <section class="cody-speech fade-in">
+            <div class="cody-avatar">🤖</div>
+            <div class="speech-bubble" id="codyMessage">
+                Hi! I'm Cody! 👋 I have a special NAME TAG that shows my name. 
+                But here's the cool part - I can CHANGE what's on my name tag! 
+                Type a new name and watch my tag update! This is how computers STORE and CHANGE information! 🏷️
+            </div>
+        </section>
+
+        <!-- Concept Explanation -->
+        <section class="concept-explanation fade-in">
+            <div class="concept-title">💡 What You're Learning</div>
+            <div class="concept-text">
+                A <strong>variable</strong> is like a name tag! It holds ONE piece of information. 
+                You can CHANGE what's inside anytime! Just like changing what's written on a name tag! 📝
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section fade-in">
+            <div class="progress-info">
+                <div class="progress-item">
+                    <div class="progress-icon">🔄</div>
+                    <div class="progress-value" id="nameChanges">0</div>
+                    <div class="progress-label">Name Changes</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">🎯</div>
+                    <div class="progress-value" id="targetChanges">8</div>
+                    <div class="progress-label">Goal</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">⭐</div>
+                    <div class="progress-value" id="starsPreview">0</div>
+                    <div class="progress-label">Stars</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Name Tag Scene -->
+        <section class="game-area fade-in">
+            <div class="name-tag-scene">
+                <div class="cody-character">🤖</div>
+                <div class="name-tag">
+                    <div class="tag-label">My name is:</div>
+                    <div class="tag-value" id="nameDisplay">Cody</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Input Section -->
+        <section class="game-area fade-in">
+            <div class="input-section">
+                <div class="input-label">✏️ Change My Name Tag!</div>
+                <input 
+                    type="text" 
+                    class="name-input" 
+                    id="nameInput" 
+                    placeholder="Type a name..."
+                    maxlength="15"
+                >
+                <div class="suggestion-buttons">
+                    <button class="suggestion-btn" onclick="setName('Cody')">Cody</button>
+                    <button class="suggestion-btn" onclick="setName('Robot')">Robot</button>
+                    <button class="suggestion-btn" onclick="setName('Friend')">Friend</button>
+                    <button class="suggestion-btn" onclick="setName('Hero')">Hero</button>
+                    <button class="suggestion-btn" onclick="setName('Star')">Star</button>
+                </div>
+                <button class="update-btn" id="updateBtn" onclick="updateName()">
+                    🔄 Update Name Tag!
+                </button>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="action-buttons">
+            <button class="action-btn secondary" onclick="resetGame()">
+                <span>🔄</span>
+                <span>Reset</span>
+            </button>
+            <button class="action-btn secondary" onclick="checkCompletion()">
+                <span>✅</span>
+                <span>Check My Work</span>
+            </button>
+            <button class="action-btn secondary" onclick="goBack()">
+                <span>🏠</span>
+                <span>Back to Dashboard</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Completion Modal -->
+    <div class="completion-modal" id="completionModal">
+        <div class="completion-content">
+            <div class="completion-icon">🎉</div>
+            <div class="completion-title">Variable Master!</div>
+            <div class="completion-message" id="completionMessage">
+                You understand how to store and change information!
+            </div>
+            <div class="stars-earned" id="starsEarned">⭐⭐⭐</div>
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="completeStory()" style="background: var(--success-green); color: var(--white);">
+                    <span>🏆</span>
+                    <span>Continue</span>
+                </button>
+                <button class="action-btn secondary" onclick="playAgain()">
+                    <span>🔄</span>
+                    <span>Try More Names</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+    <script>
+        // Game state
+        const gameState = {
+            nameChanges: 0,
+            targetChanges: 8,
+            currentName: 'Cody',
+            nameHistory: ['Cody'],
+            completed: false
+        };
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+        });
+
+        function initializeGame() {
+            // Check if profile exists
+            const profile = ProfileManager.getProfile();
+            if (!profile) {
+                alert('Please create your profile first!');
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Set up input listener
+            const input = document.getElementById('nameInput');
+            input.addEventListener('input', function() {
+                const btn = document.getElementById('updateBtn');
+                btn.disabled = this.value.trim() === '';
+            });
+
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim() !== '') {
+                    updateName();
+                }
+            });
+
+            updateProgress();
+        }
+
+        function setName(name) {
+            document.getElementById('nameInput').value = name;
+            document.getElementById('updateBtn').disabled = false;
+        }
+
+        function updateName() {
+            const input = document.getElementById('nameInput');
+            const newName = input.value.trim();
+
+            if (newName === '') {
+                alert('Please type a name first!');
+                return;
+            }
+
+            if (newName === gameState.currentName) {
+                alert('That\'s already the name! Try a different one!');
+                return;
+            }
+
+            // Update the name tag with animation
+            const nameDisplay = document.getElementById('nameDisplay');
+            nameDisplay.classList.add('changing');
+            
+            setTimeout(() => {
+                nameDisplay.textContent = newName;
+                nameDisplay.classList.remove('changing');
+            }, 250);
+
+            // Update game state
+            gameState.currentName = newName;
+            gameState.nameChanges++;
+            gameState.nameHistory.push(newName);
+
+            // Clear input
+            input.value = '';
+            document.getElementById('updateBtn').disabled = true;
+
+            // Update progress
+            updateProgress();
+
+            // Play sound
+            if (window.Codeville) {
+                window.Codeville.playSound('pop');
+            }
+
+            // Update message
+            const messages = [
+                `Awesome! My name tag now says "${newName}"! The variable changed! 🎉`,
+                `Cool! You stored "${newName}" in my name tag! Variables can change! ✨`,
+                `Perfect! "${newName}" is now stored! That's how variables work! 🌟`,
+                `Great! My name tag updated to "${newName}"! You're learning variables! 👍`
+            ];
+            document.getElementById('codyMessage').textContent = messages[Math.floor(Math.random() * messages.length)];
+
+            // Check milestones
+            if (gameState.nameChanges === 3) {
+                setTimeout(() => {
+                    document.getElementById('codyMessage').textContent = '🎉 Nice! You changed my name 3 times! Variables can hold different values! Keep going!';
+                }, 1500);
+            } else if (gameState.nameChanges === 5) {
+                setTimeout(() => {
+                    document.getElementById('codyMessage').textContent = '🌟 Wow! 5 name changes! You really understand how variables store information! Try more!';
+                }, 1500);
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('nameChanges').textContent = gameState.nameChanges;
+
+            // Calculate stars
+            let stars = 0;
+            if (gameState.nameChanges >= 8) stars = 1;
+            if (gameState.nameChanges >= 12) stars = 2;
+            if (gameState.nameChanges >= 15) stars = 3;
+
+            document.getElementById('starsPreview').textContent = stars;
+        }
+
+        function checkCompletion() {
+            if (gameState.nameChanges < gameState.targetChanges) {
+                alert(`You need at least ${gameState.targetChanges} name changes! You have ${gameState.nameChanges}. Keep changing my name tag!`);
+                return;
+            }
+
+            // Calculate stars
+            let stars = 1;
+            if (gameState.nameChanges >= 12) stars = 2;
+            if (gameState.nameChanges >= 15) stars = 3;
+
+            // Show completion modal
+            showCompletionModal(stars);
+        }
+
+        function showCompletionModal(stars) {
+            const modal = document.getElementById('completionModal');
+            const messageElement = document.getElementById('completionMessage');
+            const starsElement = document.getElementById('starsEarned');
+
+            let message = '';
+            if (stars === 3) {
+                message = `INCREDIBLE! You changed my name ${gameState.nameChanges} times! You're a variable expert! 🎉`;
+            } else if (stars === 2) {
+                message = `Great job! You changed my name ${gameState.nameChanges} times! You understand variables! 🏷️`;
+            } else {
+                message = `Good work! You changed my name ${gameState.nameChanges} times! You're learning about storing information! 📝`;
+            }
+
+            messageElement.textContent = message;
+            starsElement.textContent = '⭐'.repeat(stars);
+
+            modal.classList.add('active');
+
+            // Store stars for completion
+            gameState.starsEarned = stars;
+
+            // Play success sound and confetti
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+                window.Codeville.createConfetti();
+            }
+        }
+
+        function completeStory() {
+            const stars = gameState.starsEarned || 1;
+
+            // Save progress (Story 0 - the first story)
+            ProfileManager.completeStory(0, stars);
+
+            // Check for badges
+            if (window.checkBadges) {
+                window.checkBadges();
+            }
+
+            // Redirect to dashboard
+            window.location.href = '../dashboard.html';
+        }
+
+        function playAgain() {
+            const modal = document.getElementById('completionModal');
+            modal.classList.remove('active');
+        }
+
+        function resetGame() {
+            if (confirm('Are you sure you want to reset? Your name changes will be cleared.')) {
+                gameState.nameChanges = 0;
+                gameState.nameHistory = ['Cody'];
+                gameState.currentName = 'Cody';
+                
+                // Reset display
+                document.getElementById('nameDisplay').textContent = 'Cody';
+                document.getElementById('nameInput').value = '';
+                document.getElementById('updateBtn').disabled = true;
+                
+                // Reset message
+                document.getElementById('codyMessage').textContent = 'Let\'s start fresh! Change my name tag to see how variables work!';
+                
+                updateProgress();
+                
+                if (window.Codeville) {
+                    window.Codeville.playSound('whoosh');
+                }
+            }
+        }
+
+        function goBack() {
+            if (confirm('Are you sure you want to leave? Your progress will not be saved.')) {
+                window.location.href = '../dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -10,7 +10,7 @@ const ProgressTracker = {
         const profile = ProfileManager.getProfile();
         if (!profile) return null;
         
-        const totalStories = 5;
+        const totalStories = 7;
         const completedStories = profile.storiesCompleted.length;
         const totalPossibleStars = totalStories * 3;
         const earnedStars = profile.starsEarned;
@@ -44,6 +44,8 @@ const ProgressTracker = {
     // Get all stories progress
     getAllStoriesProgress: function() {
         const stories = [
+            { id: 0, name: "Cody's Name Tag", icon: '🏷️' },
+            { id: '00', name: "Cody's Toy Sorter", icon: '🎯' },
             { id: 1, name: 'Magic Food Table', icon: '🍕' },
             { id: 2, name: 'Dancing Robot', icon: '🤖' },
             { id: 3, name: 'Magic Treasure Box', icon: '📦' },
@@ -127,10 +129,12 @@ const ProgressTracker = {
         const milestones = [
             { stars: 5, message: 'Earn 5 stars!', icon: '⭐' },
             { stars: 10, message: 'Earn 10 stars!', icon: '🌟' },
-            { stars: 15, message: 'Earn all 15 stars!', icon: '✨' },
+            { stars: 15, message: 'Earn 15 stars!', icon: '✨' },
+            { stars: 21, message: 'Earn all 21 stars!', icon: '🌠' },
             { stories: 1, message: 'Complete your first story!', icon: '📖' },
             { stories: 3, message: 'Complete 3 stories!', icon: '📚' },
-            { stories: 5, message: 'Complete all stories!', icon: '🎓' },
+            { stories: 5, message: 'Complete 5 stories!', icon: '📖' },
+            { stories: 7, message: 'Complete all stories!', icon: '🎓' },
             { streak: 3, message: 'Maintain a 3-day streak!', icon: '🔥' },
             { streak: 7, message: 'Maintain a 7-day streak!', icon: '🔥🔥' }
         ];
@@ -177,10 +181,11 @@ const ProgressTracker = {
         
         const completedIds = profile.storiesCompleted.map(s => s.storyId);
         
-        // Find first uncompleted story
-        for (let i = 1; i <= 5; i++) {
-            if (!completedIds.includes(i)) {
-                return i;
+        // Find first uncompleted story (start with 0, 00, then 1-5)
+        const storyOrder = [0, '00', 1, 2, 3, 4, 5];
+        for (const id of storyOrder) {
+            if (!completedIds.includes(id)) {
+                return id;
             }
         }
         
@@ -484,6 +489,8 @@ function playStory(storyId) {
 
 function getStorySlug(storyId) {
     const slugs = {
+        0: 'cody-name-tag',
+        '00': 'cody-toy-sorter',
         1: 'magic-table',
         2: 'dancing-robot',
         3: 'magic-box',

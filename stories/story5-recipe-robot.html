@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍳 Cody's Recipe Robot - Codeville</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/kid-friendly.css">
+    <style>
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, var(--happy-yellow), var(--fun-pink));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .story-title {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .story-subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        .cody-speech {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-small);
+        }
+
+        .cody-avatar {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .speech-bubble {
+            background: var(--happy-yellow);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            font-size: 24px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid var(--happy-yellow);
+        }
+
+        .game-area {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .recipe-builder {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .ingredients-panel {
+            background: var(--sky-blue);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+        }
+
+        .panel-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .ingredient-item {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-small);
+            border: 4px solid transparent;
+        }
+
+        .ingredient-item:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--cody-blue);
+        }
+
+        .ingredient-icon {
+            font-size: 56px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .ingredient-name {
+            font-size: 18px;
+            color: var(--text-dark);
+            font-weight: bold;
+        }
+
+        .recipe-panel {
+            background: var(--sunshine);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            min-height: 400px;
+        }
+
+        .recipe-steps {
+            min-height: 300px;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .recipe-step {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .recipe-step:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-small);
+        }
+
+        .step-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            min-width: 50px;
+        }
+
+        .step-icon {
+            font-size: 48px;
+        }
+
+        .step-name {
+            font-size: 22px;
+            color: var(--text-dark);
+            flex: 1;
+        }
+
+        .remove-step {
+            font-size: 28px;
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            transition: transform 0.2s ease;
+        }
+
+        .remove-step:hover {
+            transform: scale(1.3);
+        }
+
+        .empty-recipe {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-light);
+            font-size: 24px;
+        }
+
+        .recipe-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+
+        .recipe-btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: var(--shadow-small);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .recipe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .recipe-btn.primary {
+            background: var(--success-green);
+            color: var(--white);
+        }
+
+        .recipe-btn.secondary {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .cooking-scene {
+            background: linear-gradient(135deg, #FFF9E6, #FFE5B4);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cody-chef {
+            font-size: 150px;
+            margin-bottom: var(--spacing-lg);
+            transition: all 0.5s ease;
+        }
+
+        .cody-chef.cooking {
+            animation: cookingBounce 0.5s ease infinite;
+        }
+
+        @keyframes cookingBounce {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .cooking-display {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            min-height: 100px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .current-step {
+            font-size: 64px;
+            margin: var(--spacing-md) 0;
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .final-dish {
+            font-size: 120px;
+            margin: var(--spacing-lg) 0;
+            animation: celebrate 1s ease;
+        }
+
+        @keyframes celebrate {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.3) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-small);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .progress-label {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .progress-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--cody-blue);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: var(--shadow-small);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-btn.secondary {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .completion-modal.active {
+            display: flex;
+        }
+
+        .completion-content {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 600px;
+            text-align: center;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .completion-icon {
+            font-size: 120px;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 1s infinite;
+        }
+
+        .completion-title {
+            font-size: 48px;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .completion-message {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stars-earned {
+            font-size: 72px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .recipe-builder {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 40px;
+            }
+
+            .story-subtitle {
+                font-size: 22px;
+            }
+
+            .cody-chef {
+                font-size: 100px;
+            }
+
+            .ingredients-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="../profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="../dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="../leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="story-container">
+        <!-- Story Header -->
+        <section class="story-header fade-in">
+            <div class="story-title">🍳 Cody's Recipe Robot</div>
+            <div class="story-subtitle">Learn about Teaching Steps!</div>
+        </section>
+
+        <!-- Cody's Instructions -->
+        <section class="cody-speech fade-in">
+            <div class="cody-avatar">👨‍🍳</div>
+            <div class="speech-bubble" id="codyMessage">
+                Hi! I want to learn how to cook! 🍳 Teach me a recipe by adding ingredients in order. 
+                Once you teach me, I'll remember ALL the steps! Then I can cook it again and again! 
+                Click ingredients to add them to the recipe, then press "Cook Recipe!" 🎉
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section fade-in">
+            <div class="progress-info">
+                <div class="progress-item">
+                    <div class="progress-icon">🍳</div>
+                    <div class="progress-value" id="recipesCooked">0</div>
+                    <div class="progress-label">Recipes Cooked</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">🎯</div>
+                    <div class="progress-value" id="targetRecipes">10</div>
+                    <div class="progress-label">Goal</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">⭐</div>
+                    <div class="progress-value" id="starsPreview">0</div>
+                    <div class="progress-label">Stars</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recipe Builder -->
+        <section class="game-area fade-in">
+            <div class="recipe-builder">
+                <!-- Ingredients Panel -->
+                <div class="ingredients-panel">
+                    <div class="panel-title">🥘 Ingredients</div>
+                    <div class="ingredients-grid" id="ingredientsGrid">
+                        <!-- Ingredients will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Recipe Panel -->
+                <div class="recipe-panel">
+                    <div class="panel-title">📝 Your Recipe</div>
+                    <div class="recipe-steps" id="recipeSteps">
+                        <div class="empty-recipe">Click ingredients to add them to your recipe!</div>
+                    </div>
+                    <div class="recipe-actions">
+                        <button class="recipe-btn primary" onclick="cookRecipe()" id="cookBtn">
+                            <span>🍳</span>
+                            <span>Cook Recipe!</span>
+                        </button>
+                        <button class="recipe-btn secondary" onclick="clearRecipe()">
+                            <span>🗑️</span>
+                            <span>Clear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cooking Scene -->
+        <section class="game-area fade-in">
+            <div class="cooking-scene" id="cookingScene">
+                <div class="cody-chef" id="codyChef">👨‍🍳</div>
+                <div class="cooking-display" id="cookingDisplay">
+                    Build a recipe and press "Cook Recipe!" to see me cook!
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="action-buttons">
+            <button class="action-btn secondary" onclick="resetGame()">
+                <span>🔄</span>
+                <span>Reset</span>
+            </button>
+            <button class="action-btn secondary" onclick="checkCompletion()">
+                <span>✅</span>
+                <span>Check My Work</span>
+            </button>
+            <button class="action-btn secondary" onclick="goBack()">
+                <span>🏠</span>
+                <span>Back to Dashboard</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Completion Modal -->
+    <div class="completion-modal" id="completionModal">
+        <div class="completion-content">
+            <div class="completion-icon">🎉</div>
+            <div class="completion-title">Master Chef!</div>
+            <div class="completion-message" id="completionMessage">
+                You taught Cody amazing recipes!
+            </div>
+            <div class="stars-earned" id="starsEarned">⭐⭐⭐</div>
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="completeStory()" style="background: var(--success-green); color: var(--white);">
+                    <span>🏆</span>
+                    <span>Continue</span>
+                </button>
+                <button class="action-btn secondary" onclick="playAgain()">
+                    <span>🔄</span>
+                    <span>Cook More Recipes</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+    <script>
+        // Game state
+        const gameState = {
+            recipesCooked: 0,
+            targetRecipes: 10,
+            currentRecipe: [],
+            recipeHistory: [],
+            completed: false
+        };
+
+        // Available ingredients
+        const ingredients = [
+            { id: 1, icon: '🍞', name: 'Bread' },
+            { id: 2, icon: '🧈', name: 'Butter' },
+            { id: 3, icon: '🥚', name: 'Egg' },
+            { id: 4, icon: '🥓', name: 'Bacon' },
+            { id: 5, icon: '🧀', name: 'Cheese' },
+            { id: 6, icon: '🍅', name: 'Tomato' },
+            { id: 7, icon: '🥬', name: 'Lettuce' },
+            { id: 8, icon: '🥛', name: 'Milk' },
+            { id: 9, icon: '🍫', name: 'Chocolate' },
+            { id: 10, icon: '🍓', name: 'Strawberry' },
+            { id: 11, icon: '🍌', name: 'Banana' },
+            { id: 12, icon: '🥞', name: 'Pancake' }
+        ];
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+        });
+
+        function initializeGame() {
+            // Check if profile exists
+            const profile = ProfileManager.getProfile();
+            if (!profile) {
+                alert('Please create your profile first!');
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Load ingredients
+            loadIngredients();
+            updateProgress();
+        }
+
+        function loadIngredients() {
+            const grid = document.getElementById('ingredientsGrid');
+            grid.innerHTML = '';
+
+            ingredients.forEach(ingredient => {
+                const item = document.createElement('div');
+                item.className = 'ingredient-item';
+                item.innerHTML = `
+                    <div class="ingredient-icon">${ingredient.icon}</div>
+                    <div class="ingredient-name">${ingredient.name}</div>
+                `;
+                item.onclick = () => addToRecipe(ingredient);
+                grid.appendChild(item);
+            });
+        }
+
+        function addToRecipe(ingredient) {
+            if (gameState.currentRecipe.length >= 6) {
+                alert('Recipe is full! Maximum 6 ingredients. Cook this recipe or clear it to start a new one!');
+                return;
+            }
+
+            gameState.currentRecipe.push(ingredient);
+            updateRecipeDisplay();
+
+            // Play sound
+            if (window.Codeville) {
+                window.Codeville.playSound('pop');
+            }
+
+            // Update message
+            const messages = [
+                `Great! Added ${ingredient.name} to the recipe! 🎉`,
+                `Nice! ${ingredient.name} is in the recipe now! 👍`,
+                `Perfect! ${ingredient.name} added! Keep going! ✨`
+            ];
+            document.getElementById('codyMessage').textContent = messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function updateRecipeDisplay() {
+            const container = document.getElementById('recipeSteps');
+            
+            if (gameState.currentRecipe.length === 0) {
+                container.innerHTML = '<div class="empty-recipe">Click ingredients to add them to your recipe!</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            gameState.currentRecipe.forEach((ingredient, index) => {
+                const step = document.createElement('div');
+                step.className = 'recipe-step';
+                step.innerHTML = `
+                    <div class="step-number">${index + 1}.</div>
+                    <div class="step-icon">${ingredient.icon}</div>
+                    <div class="step-name">${ingredient.name}</div>
+                    <div class="remove-step" onclick="removeFromRecipe(${index})">❌</div>
+                `;
+                container.appendChild(step);
+            });
+        }
+
+        function removeFromRecipe(index) {
+            gameState.currentRecipe.splice(index, 1);
+            updateRecipeDisplay();
+
+            if (window.Codeville) {
+                window.Codeville.playSound('whoosh');
+            }
+        }
+
+        function clearRecipe() {
+            if (gameState.currentRecipe.length === 0) return;
+            
+            if (confirm('Clear the recipe?')) {
+                gameState.currentRecipe = [];
+                updateRecipeDisplay();
+                document.getElementById('codyMessage').textContent = 'Recipe cleared! Start a new one!';
+                
+                if (window.Codeville) {
+                    window.Codeville.playSound('whoosh');
+                }
+            }
+        }
+
+        async function cookRecipe() {
+            if (gameState.currentRecipe.length === 0) {
+                alert('Add some ingredients first! Click on ingredients to build your recipe!');
+                return;
+            }
+
+            const chef = document.getElementById('codyChef');
+            const display = document.getElementById('cookingDisplay');
+            const cookBtn = document.getElementById('cookBtn');
+
+            // Disable button
+            cookBtn.disabled = true;
+            chef.classList.add('cooking');
+
+            // Show each step
+            for (let i = 0; i < gameState.currentRecipe.length; i++) {
+                const ingredient = gameState.currentRecipe[i];
+                display.innerHTML = `
+                    <div>Step ${i + 1} of ${gameState.currentRecipe.length}</div>
+                    <div class="current-step">${ingredient.icon}</div>
+                    <div>Adding ${ingredient.name}...</div>
+                `;
+                
+                if (window.Codeville) {
+                    window.Codeville.playSound('pop');
+                }
+                
+                await sleep(1000);
+            }
+
+            // Show final dish
+            chef.classList.remove('cooking');
+            const dishEmoji = getFinalDish();
+            display.innerHTML = `
+                <div>🎉 Recipe Complete! 🎉</div>
+                <div class="final-dish">${dishEmoji}</div>
+                <div>Delicious! I can make this again anytime!</div>
+            `;
+
+            // Update game state
+            gameState.recipesCooked++;
+            gameState.recipeHistory.push([...gameState.currentRecipe]);
+            updateProgress();
+
+            // Play success sound
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+            }
+
+            // Update message
+            document.getElementById('codyMessage').textContent = `🎉 Yay! I cooked the recipe! I remember all ${gameState.currentRecipe.length} steps! I can cook it again anytime! Build another recipe!`;
+
+            // Clear recipe for next one
+            setTimeout(() => {
+                gameState.currentRecipe = [];
+                updateRecipeDisplay();
+                display.innerHTML = 'Build a recipe and press "Cook Recipe!" to see me cook!';
+                chef.textContent = '👨‍🍳';
+                cookBtn.disabled = false;
+            }, 3000);
+
+            // Check milestones
+            if (gameState.recipesCooked === 5) {
+                setTimeout(() => {
+                    document.getElementById('codyMessage').textContent = '🌟 Awesome! You taught me 5 recipes! I remember them all! Keep teaching me more!';
+                }, 3500);
+            }
+        }
+
+        function getFinalDish() {
+            const dishes = ['🍕', '🍔', '🌮', '🍝', '🍜', '🍱', '🥗', '🍲', '🥘', '🍛'];
+            return dishes[Math.floor(Math.random() * dishes.length)];
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function updateProgress() {
+            document.getElementById('recipesCooked').textContent = gameState.recipesCooked;
+
+            // Calculate stars
+            let stars = 0;
+            if (gameState.recipesCooked >= 10) stars = 1;
+            if (gameState.recipesCooked >= 15) stars = 2;
+            if (gameState.recipesCooked >= 20) stars = 3;
+
+            document.getElementById('starsPreview').textContent = stars;
+        }
+
+        function checkCompletion() {
+            if (gameState.recipesCooked < gameState.targetRecipes) {
+                alert(`You need to cook at least ${gameState.targetRecipes} recipes! You've cooked ${gameState.recipesCooked}. Keep teaching me more recipes!`);
+                return;
+            }
+
+            // Calculate stars
+            let stars = 1;
+            if (gameState.recipesCooked >= 15) stars = 2;
+            if (gameState.recipesCooked >= 20) stars = 3;
+
+            // Show completion modal
+            showCompletionModal(stars);
+        }
+
+        function showCompletionModal(stars) {
+            const modal = document.getElementById('completionModal');
+            const messageElement = document.getElementById('completionMessage');
+            const starsElement = document.getElementById('starsEarned');
+
+            let message = '';
+            if (stars === 3) {
+                message = `AMAZING! You taught me ${gameState.recipesCooked} recipes! You're a teaching master! 🎉`;
+            } else if (stars === 2) {
+                message = `Fantastic! You taught me ${gameState.recipesCooked} recipes! You understand how teaching works! 👨‍🍳`;
+            } else {
+                message = `Great job! You taught me ${gameState.recipesCooked} recipes! You're learning to teach steps! 🍳`;
+            }
+
+            messageElement.textContent = message;
+            starsElement.textContent = '⭐'.repeat(stars);
+
+            modal.classList.add('active');
+
+            // Store stars for completion
+            gameState.starsEarned = stars;
+
+            // Play success sound and confetti
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+                window.Codeville.createConfetti();
+            }
+        }
+
+        function completeStory() {
+            const stars = gameState.starsEarned || 1;
+
+            // Save progress
+            ProfileManager.completeStory(5, stars);
+
+            // Check for badges
+            if (window.checkBadges) {
+                window.checkBadges();
+            }
+
+            // Redirect to dashboard
+            window.location.href = '../dashboard.html';
+        }
+
+        function playAgain() {
+            const modal = document.getElementById('completionModal');
+            modal.classList.remove('active');
+        }
+
+        function resetGame() {
+            if (confirm('Are you sure you want to reset? Your cooked recipes will be cleared.')) {
+                gameState.recipesCooked = 0;
+                gameState.recipeHistory = [];
+                gameState.currentRecipe = [];
+                
+                // Reset displays
+                updateRecipeDisplay();
+                document.getElementById('cookingDisplay').innerHTML = 'Build a recipe and press "Cook Recipe!" to see me cook!';
+                document.getElementById('codyChef').textContent = '👨‍🍳';
+                document.getElementById('codyMessage').textContent = 'Let\'s start fresh! Build a recipe and teach me how to cook!';
+                
+                updateProgress();
+                
+                if (window.Codeville) {
+                    window.Codeville.playSound('whoosh');
+                }
+            }
+        }
+
+        function goBack() {
+            if (confirm('Are you sure you want to leave? Your progress will not be saved.')) {
+                window.location.href = '../dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

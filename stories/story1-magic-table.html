@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍕 Magic Food Table - Codeville</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/kid-friendly.css">
+    <style>
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, var(--happy-yellow), var(--fun-pink));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .story-title {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .story-subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        .cody-speech {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-small);
+            position: relative;
+        }
+
+        .cody-avatar {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .speech-bubble {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            font-size: 24px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid var(--sky-blue);
+        }
+
+        .game-area {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .food-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+        }
+
+        .food-item {
+            font-size: 64px;
+            padding: var(--spacing-md);
+            background: var(--white);
+            border-radius: var(--radius-md);
+            cursor: grab;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: var(--shadow-small);
+            user-select: none;
+        }
+
+        .food-item:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .food-item:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+
+        .food-item.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .magic-table {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            min-height: 400px;
+            position: relative;
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .table-title {
+            text-align: center;
+            font-size: 32px;
+            color: var(--white);
+            margin-bottom: var(--spacing-lg);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .table-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .table-slot {
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px dashed rgba(255, 255, 255, 0.5);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .table-slot.drag-over {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: var(--happy-yellow);
+            transform: scale(1.05);
+        }
+
+        .table-slot.filled {
+            background: rgba(255, 255, 255, 0.4);
+            border-style: solid;
+            border-color: var(--success-green);
+        }
+
+        .slot-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: var(--white);
+            color: var(--text-dark);
+            font-size: 18px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .slot-food {
+            font-size: 56px;
+            animation: popIn 0.3s ease;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #FF6B6B;
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .table-slot.filled:hover .remove-btn {
+            display: flex;
+        }
+
+        .remove-btn:hover {
+            background: #FF4444;
+            transform: scale(1.1);
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-small);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .progress-label {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .progress-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--cody-blue);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: var(--shadow-small);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-btn.primary {
+            background: var(--cody-blue);
+            color: var(--white);
+        }
+
+        .action-btn.success {
+            background: var(--success-green);
+            color: var(--white);
+        }
+
+        .action-btn.secondary {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .completion-modal.active {
+            display: flex;
+        }
+
+        .completion-content {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 600px;
+            text-align: center;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .completion-icon {
+            font-size: 120px;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 1s infinite;
+        }
+
+        .completion-title {
+            font-size: 48px;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .completion-message {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stars-earned {
+            font-size: 72px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 40px;
+            }
+
+            .story-subtitle {
+                font-size: 22px;
+            }
+
+            .food-selection {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .table-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="../profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="../dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="../leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="story-container">
+        <!-- Story Header -->
+        <section class="story-header fade-in">
+            <div class="story-title">🍕 The Magic Food Table</div>
+            <div class="story-subtitle">Learn about Lists!</div>
+        </section>
+
+        <!-- Cody's Instructions -->
+        <section class="cody-speech fade-in">
+            <div class="cody-avatar">🤖</div>
+            <div class="speech-bubble" id="codyMessage">
+                Welcome to my restaurant! I have a magic table that can hold lots of yummy food. 
+                Let's fill it up for the party! Drag food onto the table. Each plate has a number - 
+                that's its special spot! Try to fill at least 5 spots to complete the story!
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section fade-in">
+            <div class="progress-info">
+                <div class="progress-item">
+                    <div class="progress-icon">🍽️</div>
+                    <div class="progress-value" id="foodCount">0</div>
+                    <div class="progress-label">Foods on Table</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">🎯</div>
+                    <div class="progress-value" id="targetCount">5</div>
+                    <div class="progress-label">Goal</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">⭐</div>
+                    <div class="progress-value" id="starsPreview">0</div>
+                    <div class="progress-label">Stars</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Area -->
+        <section class="game-area fade-in">
+            <h2 style="text-align: center; font-size: 32px; margin-bottom: var(--spacing-lg); color: var(--cody-blue);">
+                🍴 Food Selection
+            </h2>
+            <div class="food-selection" id="foodSelection">
+                <!-- Food items will be generated here -->
+            </div>
+
+            <div class="magic-table">
+                <div class="table-title">✨ Magic Table ✨</div>
+                <div class="table-slots" id="tableSlots">
+                    <!-- Table slots will be generated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="action-buttons">
+            <button class="action-btn secondary" onclick="clearTable()">
+                <span>🗑️</span>
+                <span>Clear Table</span>
+            </button>
+            <button class="action-btn primary" onclick="checkCompletion()">
+                <span>✅</span>
+                <span>Check My Work</span>
+            </button>
+            <button class="action-btn secondary" onclick="goBack()">
+                <span>🏠</span>
+                <span>Back to Dashboard</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Completion Modal -->
+    <div class="completion-modal" id="completionModal">
+        <div class="completion-content">
+            <div class="completion-icon">🎉</div>
+            <div class="completion-title">Amazing Work!</div>
+            <div class="completion-message" id="completionMessage">
+                You filled the magic table!
+            </div>
+            <div class="stars-earned" id="starsEarned">⭐⭐⭐</div>
+            <div class="action-buttons">
+                <button class="action-btn success" onclick="completeStory()">
+                    <span>🏆</span>
+                    <span>Continue</span>
+                </button>
+                <button class="action-btn secondary" onclick="playAgain()">
+                    <span>🔄</span>
+                    <span>Play Again</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+    <script>
+        // Game state
+        const gameState = {
+            foodOnTable: [],
+            maxSlots: 8,
+            targetFoods: 5,
+            completed: false
+        };
+
+        // Available food items
+        const foodItems = [
+            '🍕', '🍔', '🍟', '🌭', '🍿',
+            '🍦', '🍰', '🧁', '🍪', '🍩',
+            '🥤', '🧃', '🍎', '🍌', '🍇'
+        ];
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+        });
+
+        function initializeGame() {
+            // Check if profile exists
+            const profile = ProfileManager.getProfile();
+            if (!profile) {
+                alert('Please create your profile first!');
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Generate food selection
+            generateFoodSelection();
+
+            // Generate table slots
+            generateTableSlots();
+
+            // Update progress
+            updateProgress();
+        }
+
+        function generateFoodSelection() {
+            const container = document.getElementById('foodSelection');
+            container.innerHTML = '';
+
+            foodItems.forEach((food, index) => {
+                const foodElement = document.createElement('div');
+                foodElement.className = 'food-item';
+                foodElement.textContent = food;
+                foodElement.draggable = true;
+                foodElement.dataset.food = food;
+
+                // Drag events
+                foodElement.addEventListener('dragstart', handleDragStart);
+                foodElement.addEventListener('dragend', handleDragEnd);
+
+                // Touch events for mobile
+                foodElement.addEventListener('touchstart', handleTouchStart);
+                foodElement.addEventListener('touchmove', handleTouchMove);
+                foodElement.addEventListener('touchend', handleTouchEnd);
+
+                container.appendChild(foodElement);
+            });
+        }
+
+        function generateTableSlots() {
+            const container = document.getElementById('tableSlots');
+            container.innerHTML = '';
+
+            for (let i = 0; i < gameState.maxSlots; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'table-slot';
+                slot.dataset.slot = i;
+
+                const slotNumber = document.createElement('div');
+                slotNumber.className = 'slot-number';
+                slotNumber.textContent = i;
+
+                slot.appendChild(slotNumber);
+
+                // Drop events
+                slot.addEventListener('dragover', handleDragOver);
+                slot.addEventListener('dragleave', handleDragLeave);
+                slot.addEventListener('drop', handleDrop);
+
+                container.appendChild(slot);
+            }
+        }
+
+        // Drag and Drop handlers
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'copy';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'copy';
+            this.classList.add('drag-over');
+            return false;
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            e.preventDefault();
+
+            this.classList.remove('drag-over');
+
+            if (draggedElement && !this.classList.contains('filled')) {
+                const food = draggedElement.dataset.food;
+                const slotIndex = parseInt(this.dataset.slot);
+                addFoodToSlot(slotIndex, food);
+            }
+
+            return false;
+        }
+
+        // Touch handlers for mobile
+        let touchedElement = null;
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        function handleTouchStart(e) {
+            touchedElement = this;
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            this.classList.add('dragging');
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+        }
+
+        function handleTouchEnd(e) {
+            if (!touchedElement) return;
+
+            this.classList.remove('dragging');
+
+            const touch = e.changedTouches[0];
+            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+
+            if (dropTarget && dropTarget.classList.contains('table-slot') && !dropTarget.classList.contains('filled')) {
+                const food = touchedElement.dataset.food;
+                const slotIndex = parseInt(dropTarget.dataset.slot);
+                addFoodToSlot(slotIndex, food);
+            }
+
+            touchedElement = null;
+        }
+
+        function addFoodToSlot(slotIndex, food) {
+            const slot = document.querySelector(`[data-slot="${slotIndex}"]`);
+            if (!slot || slot.classList.contains('filled')) return;
+
+            // Add food to slot
+            const foodElement = document.createElement('div');
+            foodElement.className = 'slot-food';
+            foodElement.textContent = food;
+
+            // Add remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.textContent = '×';
+            removeBtn.onclick = () => removeFoodFromSlot(slotIndex);
+
+            slot.appendChild(foodElement);
+            slot.appendChild(removeBtn);
+            slot.classList.add('filled');
+
+            // Update game state
+            gameState.foodOnTable[slotIndex] = food;
+
+            // Play sound
+            if (window.Codeville) {
+                window.Codeville.playSound('pop');
+            }
+
+            // Update progress
+            updateProgress();
+
+            // Update Cody's message
+            updateCodyMessage();
+        }
+
+        function removeFoodFromSlot(slotIndex) {
+            const slot = document.querySelector(`[data-slot="${slotIndex}"]`);
+            if (!slot) return;
+
+            // Remove food elements
+            const foodElement = slot.querySelector('.slot-food');
+            const removeBtn = slot.querySelector('.remove-btn');
+
+            if (foodElement) foodElement.remove();
+            if (removeBtn) removeBtn.remove();
+
+            slot.classList.remove('filled');
+
+            // Update game state
+            delete gameState.foodOnTable[slotIndex];
+
+            // Play sound
+            if (window.Codeville) {
+                window.Codeville.playSound('whoosh');
+            }
+
+            // Update progress
+            updateProgress();
+
+            // Update Cody's message
+            updateCodyMessage();
+        }
+
+        function clearTable() {
+            if (confirm('Are you sure you want to clear the table?')) {
+                gameState.foodOnTable = [];
+
+                const slots = document.querySelectorAll('.table-slot');
+                slots.forEach(slot => {
+                    const foodElement = slot.querySelector('.slot-food');
+                    const removeBtn = slot.querySelector('.remove-btn');
+
+                    if (foodElement) foodElement.remove();
+                    if (removeBtn) removeBtn.remove();
+
+                    slot.classList.remove('filled');
+                });
+
+                updateProgress();
+                updateCodyMessage();
+
+                if (window.Codeville) {
+                    window.Codeville.playSound('whoosh');
+                }
+            }
+        }
+
+        function updateProgress() {
+            const foodCount = Object.keys(gameState.foodOnTable).length;
+            document.getElementById('foodCount').textContent = foodCount;
+
+            // Calculate stars
+            let stars = 0;
+            if (foodCount >= 5) stars = 1;
+            if (foodCount >= 6) stars = 2;
+            if (foodCount >= 8) stars = 3;
+
+            document.getElementById('starsPreview').textContent = stars;
+        }
+
+        function updateCodyMessage() {
+            const foodCount = Object.keys(gameState.foodOnTable).length;
+            const messageElement = document.getElementById('codyMessage');
+
+            if (foodCount === 0) {
+                messageElement.textContent = "The table is empty! Drag some yummy food onto it!";
+            } else if (foodCount < 3) {
+                messageElement.textContent = "Good start! Keep adding more food!";
+            } else if (foodCount < 5) {
+                messageElement.textContent = "You're doing great! Just a little more!";
+            } else if (foodCount < 8) {
+                messageElement.textContent = "Wow! The table is looking delicious! Can you fill it completely?";
+            } else {
+                messageElement.textContent = "Amazing! The table is full! Click 'Check My Work' to finish!";
+            }
+        }
+
+        function checkCompletion() {
+            const foodCount = Object.keys(gameState.foodOnTable).length;
+
+            if (foodCount < gameState.targetFoods) {
+                alert(`You need at least ${gameState.targetFoods} foods on the table! You have ${foodCount}.`);
+                return;
+            }
+
+            // Calculate stars
+            let stars = 1;
+            if (foodCount >= 6) stars = 2;
+            if (foodCount >= 8) stars = 3;
+
+            // Show completion modal
+            showCompletionModal(stars, foodCount);
+        }
+
+        function showCompletionModal(stars, foodCount) {
+            const modal = document.getElementById('completionModal');
+            const messageElement = document.getElementById('completionMessage');
+            const starsElement = document.getElementById('starsEarned');
+
+            let message = '';
+            if (stars === 3) {
+                message = `Perfect! You filled all ${foodCount} spots on the magic table!`;
+            } else if (stars === 2) {
+                message = `Great job! You added ${foodCount} foods to the table!`;
+            } else {
+                message = `Good work! You added ${foodCount} foods to the table!`;
+            }
+
+            messageElement.textContent = message;
+            starsElement.textContent = '⭐'.repeat(stars);
+
+            modal.classList.add('active');
+
+            // Store stars for completion
+            gameState.starsEarned = stars;
+
+            // Play success sound
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+                window.Codeville.createConfetti();
+            }
+        }
+
+        function completeStory() {
+            const stars = gameState.starsEarned || 1;
+
+            // Save progress
+            ProfileManager.completeStory(1, stars);
+
+            // Check for badges
+            if (window.checkBadges) {
+                window.checkBadges();
+            }
+
+            // Redirect to dashboard
+            window.location.href = '../dashboard.html';
+        }
+
+        function playAgain() {
+            const modal = document.getElementById('completionModal');
+            modal.classList.remove('active');
+            clearTable();
+        }
+
+        function goBack() {
+            if (confirm('Are you sure you want to leave? Your progress will not be saved.')) {
+                window.location.href = '../dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

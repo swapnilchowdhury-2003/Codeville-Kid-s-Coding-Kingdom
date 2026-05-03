@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Cody's Toy Sorter - Codeville</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/kid-friendly.css">
+    <style>
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, var(--happy-yellow), var(--success-green));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .story-title {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .story-subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        .cody-speech {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-small);
+        }
+
+        .cody-avatar {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .speech-bubble {
+            background: var(--happy-yellow);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            font-size: 24px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid var(--happy-yellow);
+        }
+
+        .game-area {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .sorting-scene {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .box-container {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .box-container.highlight {
+            border-color: var(--cody-blue);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .box-icon {
+            font-size: 80px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .box-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-sm);
+            text-align: center;
+        }
+
+        .box-description {
+            font-size: 18px;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .box-items {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .sorted-item {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            font-size: 36px;
+            box-shadow: var(--shadow-small);
+            animation: dropIn 0.5s ease;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        @keyframes dropIn {
+            0% {
+                transform: translateY(-50px) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(10px) scale(1.1);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .items-to-sort {
+            background: var(--sunshine);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+        }
+
+        .items-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .item-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-small);
+            border: 4px solid transparent;
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow-large);
+            border-color: var(--cody-blue);
+        }
+
+        .item-card.sorted {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .item-icon {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .item-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .item-type {
+            font-size: 16px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-small);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .progress-label {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .progress-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--cody-blue);
+        }
+
+        .concept-explanation {
+            background: var(--sky-blue);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .concept-title {
+            font-size: 36px;
+            color: var(--cody-blue);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .concept-text {
+            font-size: 24px;
+            color: var(--text-dark);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .type-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .type-example {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+
+        .example-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .example-label {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--cody-blue);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: var(--shadow-small);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-btn.secondary {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .completion-modal.active {
+            display: flex;
+        }
+
+        .completion-content {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 600px;
+            text-align: center;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .completion-icon {
+            font-size: 120px;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 1s infinite;
+        }
+
+        .completion-title {
+            font-size: 48px;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .completion-message {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stars-earned {
+            font-size: 72px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .sorting-scene {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 40px;
+            }
+
+            .story-subtitle {
+                font-size: 22px;
+            }
+
+            .items-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="../profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="../dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="../leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="story-container">
+        <!-- Story Header -->
+        <section class="story-header fade-in">
+            <div class="story-title">🎯 Cody's Toy Sorter</div>
+            <div class="story-subtitle">Learn about Different Types of Information!</div>
+        </section>
+
+        <!-- Cody's Instructions -->
+        <section class="cody-speech fade-in">
+            <div class="cody-avatar">🤖</div>
+            <div class="speech-bubble" id="codyMessage">
+                Hi! I need help sorting my toys! 🎯 I have THREE special boxes:
+                One for NUMBERS (like 5, 10), one for WORDS (like "cat", "fun"), 
+                and one for YES/NO answers (like ✅ or ❌). 
+                Click each toy and put it in the RIGHT box! Let's sort! 📦
+            </div>
+        </section>
+
+        <!-- Concept Explanation -->
+        <section class="concept-explanation fade-in">
+            <div class="concept-title">💡 What You're Learning</div>
+            <div class="concept-text">
+                Computers store different <strong>types</strong> of information! 
+                Numbers for counting, Words for names, and Yes/No for true or false! 
+                Each type is special and used for different things! 🎨
+            </div>
+            <div class="type-examples">
+                <div class="type-example">
+                    <div class="example-icon">🔢</div>
+                    <div class="example-label">Numbers</div>
+                    <div style="font-size: 18px; color: var(--text-light); margin-top: 8px;">
+                        1, 5, 10, 100
+                    </div>
+                </div>
+                <div class="type-example">
+                    <div class="example-icon">📝</div>
+                    <div class="example-label">Words</div>
+                    <div style="font-size: 18px; color: var(--text-light); margin-top: 8px;">
+                        "cat", "fun", "hello"
+                    </div>
+                </div>
+                <div class="type-example">
+                    <div class="example-icon">✅</div>
+                    <div class="example-label">Yes/No</div>
+                    <div style="font-size: 18px; color: var(--text-light); margin-top: 8px;">
+                        true ✅, false ❌
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section fade-in">
+            <div class="progress-info">
+                <div class="progress-item">
+                    <div class="progress-icon">✅</div>
+                    <div class="progress-value" id="itemsSorted">0</div>
+                    <div class="progress-label">Items Sorted</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">🎯</div>
+                    <div class="progress-value" id="totalItems">15</div>
+                    <div class="progress-label">Total Items</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">⭐</div>
+                    <div class="progress-value" id="starsPreview">0</div>
+                    <div class="progress-label">Stars</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sorting Boxes -->
+        <section class="game-area fade-in">
+            <div class="sorting-scene">
+                <!-- Numbers Box -->
+                <div class="box-container" id="numbersBox">
+                    <div class="box-icon">🔢</div>
+                    <div class="box-title">Numbers</div>
+                    <div class="box-description">For counting!</div>
+                    <div class="box-items" id="numbersItems"></div>
+                </div>
+
+                <!-- Words Box -->
+                <div class="box-container" id="wordsBox">
+                    <div class="box-icon">📝</div>
+                    <div class="box-title">Words</div>
+                    <div class="box-description">For names & text!</div>
+                    <div class="box-items" id="wordsItems"></div>
+                </div>
+
+                <!-- Yes/No Box -->
+                <div class="box-container" id="booleanBox">
+                    <div class="box-icon">✅</div>
+                    <div class="box-title">Yes/No</div>
+                    <div class="box-description">True or False!</div>
+                    <div class="box-items" id="booleanItems"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Items to Sort -->
+        <section class="game-area fade-in">
+            <div class="items-to-sort">
+                <div class="items-title">🎁 Click items to sort them!</div>
+                <div class="items-grid" id="itemsGrid">
+                    <!-- Items will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="action-buttons">
+            <button class="action-btn secondary" onclick="resetGame()">
+                <span>🔄</span>
+                <span>Reset</span>
+            </button>
+            <button class="action-btn secondary" onclick="checkCompletion()">
+                <span>✅</span>
+                <span>Check My Work</span>
+            </button>
+            <button class="action-btn secondary" onclick="goBack()">
+                <span>🏠</span>
+                <span>Back to Dashboard</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Completion Modal -->
+    <div class="completion-modal" id="completionModal">
+        <div class="completion-content">
+            <div class="completion-icon">🎉</div>
+            <div class="completion-title">Sorting Master!</div>
+            <div class="completion-message" id="completionMessage">
+                You understand different types of information!
+            </div>
+            <div class="stars-earned" id="starsEarned">⭐⭐⭐</div>
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="completeStory()" style="background: var(--success-green); color: var(--white);">
+                    <span>🏆</span>
+                    <span>Continue</span>
+                </button>
+                <button class="action-btn secondary" onclick="playAgain()">
+                    <span>🔄</span>
+                    <span>Sort Again</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+    <script>
+        // Game state
+        const gameState = {
+            itemsSorted: 0,
+            correctSorts: 0,
+            wrongSorts: 0,
+            completed: false
+        };
+
+        // Items to sort
+        const items = [
+            { id: 1, icon: '5️⃣', value: '5', type: 'number', box: 'numbers' },
+            { id: 2, icon: '🔟', value: '10', type: 'number', box: 'numbers' },
+            { id: 3, icon: '💯', value: '100', type: 'number', box: 'numbers' },
+            { id: 4, icon: '3️⃣', value: '3', type: 'number', box: 'numbers' },
+            { id: 5, icon: '7️⃣', value: '7', type: 'number', box: 'numbers' },
+            
+            { id: 6, icon: '🐱', value: '"cat"', type: 'word', box: 'words' },
+            { id: 7, icon: '🎈', value: '"fun"', type: 'word', box: 'words' },
+            { id: 8, icon: '👋', value: '"hello"', type: 'word', box: 'words' },
+            { id: 9, icon: '🌟', value: '"star"', type: 'word', box: 'words' },
+            { id: 10, icon: '🎨', value: '"art"', type: 'word', box: 'words' },
+            
+            { id: 11, icon: '✅', value: 'true', type: 'boolean', box: 'boolean' },
+            { id: 12, icon: '❌', value: 'false', type: 'boolean', box: 'boolean' },
+            { id: 13, icon: '👍', value: 'yes', type: 'boolean', box: 'boolean' },
+            { id: 14, icon: '👎', value: 'no', type: 'boolean', box: 'boolean' },
+            { id: 15, icon: '✔️', value: 'true', type: 'boolean', box: 'boolean' }
+        ];
+
+        // Shuffle items
+        let shuffledItems = [...items].sort(() => Math.random() - 0.5);
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+        });
+
+        function initializeGame() {
+            // Check if profile exists
+            const profile = ProfileManager.getProfile();
+            if (!profile) {
+                alert('Please create your profile first!');
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Load items
+            loadItems();
+            updateProgress();
+        }
+
+        function loadItems() {
+            const grid = document.getElementById('itemsGrid');
+            grid.innerHTML = '';
+
+            shuffledItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.id = `item-${item.id}`;
+                card.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div class="item-value">${item.value}</div>
+                    <div class="item-type">${item.type}</div>
+                `;
+                card.onclick = () => showSortOptions(item);
+                grid.appendChild(card);
+            });
+        }
+
+        function showSortOptions(item) {
+            const card = document.getElementById(`item-${item.id}`);
+            if (card.classList.contains('sorted')) return;
+
+            // Highlight boxes
+            document.querySelectorAll('.box-container').forEach(box => {
+                box.classList.add('highlight');
+            });
+
+            // Ask where to sort
+            const choice = prompt(`Where should "${item.value}" go?\n\n1 = Numbers 🔢\n2 = Words 📝\n3 = Yes/No ✅\n\nType 1, 2, or 3:`);
+
+            // Remove highlights
+            document.querySelectorAll('.box-container').forEach(box => {
+                box.classList.remove('highlight');
+            });
+
+            if (!choice) return;
+
+            let selectedBox = '';
+            if (choice === '1') selectedBox = 'numbers';
+            else if (choice === '2') selectedBox = 'words';
+            else if (choice === '3') selectedBox = 'boolean';
+            else {
+                alert('Please type 1, 2, or 3!');
+                return;
+            }
+
+            sortItem(item, selectedBox, card);
+        }
+
+        function sortItem(item, selectedBox, card) {
+            const isCorrect = item.box === selectedBox;
+
+            if (isCorrect) {
+                // Correct sort!
+                gameState.correctSorts++;
+                card.classList.add('sorted');
+
+                // Add to correct box
+                const boxItems = document.getElementById(`${selectedBox}Items`);
+                const sortedItem = document.createElement('div');
+                sortedItem.className = 'sorted-item';
+                sortedItem.textContent = item.icon;
+                boxItems.appendChild(sortedItem);
+
+                // Play sound
+                if (window.Codeville) {
+                    window.Codeville.playSound('pop');
+                }
+
+                // Update message
+                const messages = [
+                    `Perfect! ${item.value} is a ${item.type}! Great sorting! 🎉`,
+                    `Yes! ${item.value} goes in the ${item.type} box! Well done! ✨`,
+                    `Correct! You know ${item.value} is a ${item.type}! Amazing! 🌟`
+                ];
+                document.getElementById('codyMessage').textContent = messages[Math.floor(Math.random() * messages.length)];
+
+            } else {
+                // Wrong sort
+                gameState.wrongSorts++;
+                
+                if (window.Codeville) {
+                    window.Codeville.playSound('error');
+                }
+
+                alert(`Oops! ${item.value} is a ${item.type}, not a ${selectedBox}! Try again!`);
+                return;
+            }
+
+            gameState.itemsSorted++;
+            updateProgress();
+
+            // Check milestones
+            if (gameState.itemsSorted === 5) {
+                setTimeout(() => {
+                    document.getElementById('codyMessage').textContent = '🎉 Great! You sorted 5 items! You\'re learning about data types! Keep going!';
+                }, 1000);
+            } else if (gameState.itemsSorted === 10) {
+                setTimeout(() => {
+                    document.getElementById('codyMessage').textContent = '🌟 Wow! 10 items sorted! You really understand different types! Almost done!';
+                }, 1000);
+            }
+
+            // Check if all sorted
+            if (gameState.itemsSorted === items.length) {
+                setTimeout(() => {
+                    checkCompletion();
+                }, 1500);
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('itemsSorted').textContent = gameState.itemsSorted;
+
+            // Calculate stars based on accuracy
+            const accuracy = gameState.itemsSorted > 0 ? 
+                (gameState.correctSorts / (gameState.correctSorts + gameState.wrongSorts)) * 100 : 0;
+            
+            let stars = 0;
+            if (gameState.itemsSorted >= 15 && accuracy >= 80) stars = 1;
+            if (gameState.itemsSorted >= 15 && accuracy >= 90) stars = 2;
+            if (gameState.itemsSorted >= 15 && accuracy === 100) stars = 3;
+
+            document.getElementById('starsPreview').textContent = stars;
+        }
+
+        function checkCompletion() {
+            if (gameState.itemsSorted < items.length) {
+                alert(`Sort all ${items.length} items first! You've sorted ${gameState.itemsSorted}.`);
+                return;
+            }
+
+            // Calculate stars
+            const accuracy = (gameState.correctSorts / (gameState.correctSorts + gameState.wrongSorts)) * 100;
+            let stars = 1;
+            if (accuracy >= 90) stars = 2;
+            if (accuracy === 100) stars = 3;
+
+            // Show completion modal
+            showCompletionModal(stars, accuracy);
+        }
+
+        function showCompletionModal(stars, accuracy) {
+            const modal = document.getElementById('completionModal');
+            const messageElement = document.getElementById('completionMessage');
+            const starsElement = document.getElementById('starsEarned');
+
+            let message = '';
+            if (stars === 3) {
+                message = `PERFECT! 100% accuracy! You sorted all items correctly! You're a data type expert! 🎉`;
+            } else if (stars === 2) {
+                message = `Great job! ${Math.round(accuracy)}% accuracy! You understand data types well! 🌟`;
+            } else {
+                message = `Good work! You sorted all items! You're learning about different types! 📚`;
+            }
+
+            messageElement.textContent = message;
+            starsElement.textContent = '⭐'.repeat(stars);
+
+            modal.classList.add('active');
+
+            // Store stars for completion
+            gameState.starsEarned = stars;
+
+            // Play success sound and confetti
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+                window.Codeville.createConfetti();
+            }
+        }
+
+        function completeStory() {
+            const stars = gameState.starsEarned || 1;
+
+            // Save progress (Story 00 - second beginner story)
+            ProfileManager.completeStory('00', stars);
+
+            // Check for badges
+            if (window.checkBadges) {
+                window.checkBadges();
+            }
+
+            // Redirect to dashboard
+            window.location.href = '../dashboard.html';
+        }
+
+        function playAgain() {
+            const modal = document.getElementById('completionModal');
+            modal.classList.remove('active');
+        }
+
+        function resetGame() {
+            if (confirm('Are you sure you want to reset? All sorted items will be cleared.')) {
+                gameState.itemsSorted = 0;
+                gameState.correctSorts = 0;
+                gameState.wrongSorts = 0;
+                
+                // Clear boxes
+                document.getElementById('numbersItems').innerHTML = '';
+                document.getElementById('wordsItems').innerHTML = '';
+                document.getElementById('booleanItems').innerHTML = '';
+                
+                // Reshuffle and reload items
+                shuffledItems = [...items].sort(() => Math.random() - 0.5);
+                loadItems();
+                
+                // Reset message
+                document.getElementById('codyMessage').textContent = 'Let\'s start fresh! Click items to sort them into the right boxes!';
+                
+                updateProgress();
+                
+                if (window.Codeville) {
+                    window.Codeville.playSound('whoosh');
+                }
+            }
+        }
+
+        function goBack() {
+            if (confirm('Are you sure you want to leave? Your progress will not be saved.')) {
+                window.location.href = '../dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

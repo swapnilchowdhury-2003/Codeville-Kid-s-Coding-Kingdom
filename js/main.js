@@ -246,6 +246,8 @@ function initStoryCards() {
 
 function getStorySlug(storyNumber) {
     const slugs = {
+        '0': 'cody-name-tag',
+        '00': 'cody-toy-sorter',
         '1': 'magic-table',
         '2': 'dancing-robot',
         '3': 'magic-box',

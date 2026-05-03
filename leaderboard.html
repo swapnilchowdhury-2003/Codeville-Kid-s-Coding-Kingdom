@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/kid-friendly.css">
     <style>
         .leaderboard-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: var(--spacing-xl) var(--spacing-md);
         }
@@ -36,13 +36,243 @@
         }
 
         .your-rank-card {
-            background: var(--white);
+            background: linear-gradient(135deg, var(--cody-blue), var(--fun-pink));
             border-radius: var(--radius-lg);
             padding: var(--spacing-xl);
             text-align: center;
             box-shadow: var(--shadow-medium);
             margin-bottom: var(--spacing-xl);
-            border: 4px solid var(--cody-blue);
+            color: var(--white);
+        }
+
+        .player-avatar-large {
+            font-size: 96px;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .player-info {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .player-name {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .player-rank {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .player-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+        }
+
+        .stat-item .stat-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-item .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-item .stat-label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-title {
+            font-size: 40px;
+            color: var(--cody-blue);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .weekly-stat {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .weekly-stat-icon {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .weekly-stat-value {
+            font-size: 40px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .weekly-stat-label {
+            font-size: 18px;
+            color: var(--text-light);
+        }
+
+        .leaderboard-card {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-card:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-small);
+        }
+
+        .leaderboard-card.current-player {
+            background: linear-gradient(135deg, var(--happy-yellow), var(--fun-pink));
+            border: 3px solid var(--cody-blue);
+        }
+
+        .player-avatar {
+            font-size: 56px;
+        }
+
+        .player-details {
+            flex: 1;
+        }
+
+        .player-stats {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-top: var(--spacing-xs);
+        }
+
+        .player-stats .stat {
+            margin-right: var(--spacing-sm);
+        }
+
+        .achievement-card {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-small);
+        }
+
+        .achievement-card.achieved {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+        }
+
+        .achievement-icon {
+            font-size: 64px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .achievement-details {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .achievement-description {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .achievement-status {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .achievement-status.achieved {
+            color: #4CAF50;
+        }
+
+        .achievement-progress {
+            margin-top: var(--spacing-sm);
+        }
+
+        .progress-bar-mini {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-full);
+            height: 24px;
+            overflow: hidden;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .progress-fill-mini {
+            background: linear-gradient(90deg, var(--cody-blue), var(--fun-pink));
+            height: 100%;
+            border-radius: var(--radius-full);
+            transition: width 1s ease;
+        }
+
+        .progress-text {
+            font-size: 16px;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .info-box {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .info-box-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .info-box-text {
+            font-size: 22px;
+            color: var(--text-dark);
         }
 
         .rank-badge {
@@ -296,37 +526,41 @@
             <div class="leaderboard-subtitle">See how you compare with other learners!</div>
         </section>
 
-        <!-- Your Rank Card -->
-        <section class="your-rank-card bounce-in" id="yourRankCard">
-            <div class="rank-badge">🎯</div>
-            <div class="rank-text">Your Rank: #1</div>
-            <div class="rank-details">You're doing amazing! Keep learning! 🌟</div>
+        <!-- Current Player Card -->
+        <section class="your-rank-card bounce-in" id="currentPlayerCard">
+            <!-- Will be populated by JavaScript -->
+        </section>
+
+        <!-- Weekly Stats -->
+        <section class="progress-section fade-in">
+            <h2 class="section-title">📊 This Week's Stats</h2>
+            <div class="stats-overview" id="weeklyStats">
+                <!-- Will be populated by JavaScript -->
+            </div>
         </section>
 
         <!-- Info Box -->
         <section class="info-box fade-in">
             <div class="info-box-icon">ℹ️</div>
             <div class="info-box-text">
-                This is a demo leaderboard. In the full version, you'll compete with friends and other learners!
+                This is a demo leaderboard with sample players. In the full version, you'll compete with real friends!
             </div>
         </section>
 
-        <!-- Leaderboard Tabs -->
-        <section class="leaderboard-tabs">
-            <button class="tab-button active" data-tab="stars" onclick="switchTab('stars')">
-                ⭐ Most Stars
-            </button>
-            <button class="tab-button" data-tab="stories" onclick="switchTab('stories')">
-                📚 Stories Completed
-            </button>
-            <button class="tab-button" data-tab="streak" onclick="switchTab('streak')">
-                🔥 Longest Streak
-            </button>
+        <!-- Top 10 Leaderboard -->
+        <section class="progress-section fade-in">
+            <h2 class="section-title">🏆 Top 10 Champions</h2>
+            <div id="top10Container">
+                <!-- Will be populated by JavaScript -->
+            </div>
         </section>
 
-        <!-- Leaderboard List -->
-        <section class="leaderboard-list fade-in" id="leaderboardList">
-            <!-- Leaderboard items will be loaded here -->
+        <!-- Achievements Section -->
+        <section class="progress-section fade-in">
+            <h2 class="section-title">🎯 Achievement Milestones</h2>
+            <div id="achievementsContainer">
+                <!-- Will be populated by JavaScript -->
+            </div>
         </section>
 
         <!-- Share Section -->
@@ -347,179 +581,12 @@
     <script src="js/main.js"></script>
     <script src="js/profile.js"></script>
     <script src="js/progress.js"></script>
+    <script src="js/leaderboard.js"></script>
     <script>
         let currentTab = 'stars';
 
-        document.addEventListener('DOMContentLoaded', function() {
-            loadLeaderboard();
-        });
-
-        function loadLeaderboard() {
-            const profile = ProfileManager.getProfile();
-            
-            if (!profile) {
-                window.location.href = 'index.html';
-                return;
-            }
-
-            // Update your rank card
-            updateYourRank(profile);
-
-            // Load demo leaderboard data
-            loadDemoLeaderboard();
-        }
-
-        function updateYourRank(profile) {
-            const card = document.getElementById('yourRankCard');
-            
-            const rank = 1; // Demo rank
-            const rankEmoji = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '🎯';
-            
-            card.innerHTML = `
-                <div class="rank-badge">${rankEmoji}</div>
-                <div class="rank-text">Your Rank: #${rank}</div>
-                <div class="rank-details">
-                    ${profile.starsEarned} stars • ${profile.storiesCompleted.length} stories • ${profile.streak} day streak
-                </div>
-            `;
-        }
-
-        function loadDemoLeaderboard() {
-            const profile = ProfileManager.getProfile();
-            
-            // Create demo data including current user
-            const demoUsers = [
-                {
-                    name: profile.name,
-                    avatar: profile.avatar,
-                    stars: profile.starsEarned,
-                    stories: profile.storiesCompleted.length,
-                    streak: profile.streak,
-                    isCurrentUser: true
-                },
-                {
-                    name: 'Emma',
-                    avatar: '🐱',
-                    stars: 15,
-                    stories: 5,
-                    streak: 12
-                },
-                {
-                    name: 'Liam',
-                    avatar: '🦁',
-                    stars: 14,
-                    stories: 5,
-                    streak: 8
-                },
-                {
-                    name: 'Sophia',
-                    avatar: '🦄',
-                    stars: 13,
-                    stories: 5,
-                    streak: 15
-                },
-                {
-                    name: 'Noah',
-                    avatar: '🤖',
-                    stars: 12,
-                    stories: 4,
-                    streak: 6
-                },
-                {
-                    name: 'Olivia',
-                    avatar: '🐼',
-                    stars: 11,
-                    stories: 4,
-                    streak: 10
-                },
-                {
-                    name: 'Ethan',
-                    avatar: '🐶',
-                    stars: 10,
-                    stories: 4,
-                    streak: 5
-                },
-                {
-                    name: 'Ava',
-                    avatar: '🐸',
-                    stars: 9,
-                    stories: 3,
-                    streak: 7
-                }
-            ];
-
-            displayLeaderboard(demoUsers);
-        }
-
-        function displayLeaderboard(users) {
-            const container = document.getElementById('leaderboardList');
-            
-            // Sort users based on current tab
-            let sortedUsers = [...users];
-            
-            if (currentTab === 'stars') {
-                sortedUsers.sort((a, b) => b.stars - a.stars);
-            } else if (currentTab === 'stories') {
-                sortedUsers.sort((a, b) => b.stories - a.stories);
-            } else if (currentTab === 'streak') {
-                sortedUsers.sort((a, b) => b.streak - a.streak);
-            }
-
-            container.innerHTML = '';
-
-            sortedUsers.forEach((user, index) => {
-                const rank = index + 1;
-                const item = createLeaderboardItem(user, rank);
-                container.appendChild(item);
-            });
-        }
-
-        function createLeaderboardItem(user, rank) {
-            const item = document.createElement('div');
-            
-            let itemClass = 'leaderboard-item';
-            if (user.isCurrentUser) {
-                itemClass += ' current-user';
-            } else if (rank === 1) {
-                itemClass += ' top-1';
-            } else if (rank === 2) {
-                itemClass += ' top-2';
-            } else if (rank === 3) {
-                itemClass += ' top-3';
-            }
-            
-            item.className = itemClass;
-
-            const rankDisplay = rank <= 3 ? 
-                (rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉') : 
-                `#${rank}`;
-
-            let scoreValue, scoreLabel;
-            if (currentTab === 'stars') {
-                scoreValue = user.stars;
-                scoreLabel = '⭐';
-            } else if (currentTab === 'stories') {
-                scoreValue = user.stories;
-                scoreLabel = '📚';
-            } else {
-                scoreValue = user.streak;
-                scoreLabel = '🔥';
-            }
-
-            item.innerHTML = `
-                <div class="rank-number">${rankDisplay}</div>
-                <div class="user-avatar">${user.avatar}</div>
-                <div class="user-info">
-                    <div class="user-name">${user.name}${user.isCurrentUser ? ' (You)' : ''}</div>
-                    <div class="user-stats">
-                        ⭐ ${user.stars} stars • 📚 ${user.stories} stories • 🔥 ${user.streak} days
-                    </div>
-                </div>
-                <div class="user-score">${scoreLabel} ${scoreValue}</div>
-            `;
-
-            return item;
-        }
+        // Leaderboard page is initialized by leaderboard.js
+        // Additional page-specific functionality here
 
         function switchTab(tab) {
             currentTab = tab;
@@ -533,7 +600,7 @@
             });
 
             // Reload leaderboard with new sorting
-            loadDemoLeaderboard();
+            loadLeaderboard();
 
             // Play sound
             if (window.Codeville) {
@@ -542,39 +609,7 @@
         }
 
         function shareProgress() {
-            const profile = ProfileManager.getProfile();
-            
-            const shareText = `🏰 I'm learning to code with Codeville!\n\n` +
-                `⭐ ${profile.starsEarned} stars earned\n` +
-                `📚 ${profile.storiesCompleted.length} stories completed\n` +
-                `🔥 ${profile.streak} day streak\n\n` +
-                `Join me in this coding adventure! 🚀`;
-
-            // Try to use Web Share API if available
-            if (navigator.share) {
-                navigator.share({
-                    title: 'My Codeville Progress',
-                    text: shareText
-                }).catch(err => {
-                    console.log('Share cancelled or failed:', err);
-                });
-            } else {
-                // Fallback: copy to clipboard
-                navigator.clipboard.writeText(shareText).then(() => {
-                    if (window.Codeville) {
-                        window.Codeville.showMessage('Progress copied to clipboard! 📋', 'success');
-                    } else {
-                        alert('Progress copied to clipboard! 📋');
-                    }
-                }).catch(err => {
-                    alert('Unable to share. Please try again!');
-                });
-            }
-
-            // Play sound
-            if (window.Codeville) {
-                window.Codeville.playSound('success');
-            }
+            LeaderboardManager.shareScore();
         }
     </script>
 </body>

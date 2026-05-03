@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Dancing Robot Party - Codeville</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/kid-friendly.css">
+    <style>
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, var(--fun-pink), var(--playful-purple));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .story-title {
+            font-size: 56px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .story-subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        .cody-speech {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-small);
+            position: relative;
+        }
+
+        .cody-avatar {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            animation: bounce 2s infinite;
+        }
+
+        .speech-bubble {
+            background: var(--sky-blue);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            font-size: 24px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid var(--sky-blue);
+        }
+
+        .game-area {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-medium);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .dance-stage {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stage-lights {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(90deg, 
+                var(--fun-pink) 0%, 
+                var(--happy-yellow) 25%, 
+                var(--cody-blue) 50%, 
+                var(--playful-purple) 75%, 
+                var(--fun-pink) 100%);
+            opacity: 0.3;
+            animation: lightMove 3s linear infinite;
+        }
+
+        @keyframes lightMove {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .dancing-cody {
+            font-size: 200px;
+            margin: var(--spacing-xl) 0;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dancing-cody.dance-move-1 {
+            animation: danceMove1 0.5s ease;
+        }
+
+        .dancing-cody.dance-move-2 {
+            animation: danceMove2 0.5s ease;
+        }
+
+        .dancing-cody.dance-move-3 {
+            animation: danceMove3 0.5s ease;
+        }
+
+        @keyframes danceMove1 {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-15deg) scale(1.1); }
+            75% { transform: rotate(15deg) scale(1.1); }
+        }
+
+        @keyframes danceMove2 {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-40px) scale(1.15); }
+        }
+
+        @keyframes danceMove3 {
+            0%, 100% { transform: rotate(0deg) translateX(0); }
+            25% { transform: rotate(10deg) translateX(-30px); }
+            75% { transform: rotate(-10deg) translateX(30px); }
+        }
+
+        .dance-counter {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            margin-top: var(--spacing-lg);
+            text-align: center;
+            min-height: 60px;
+        }
+
+        .controls-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-small);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .control-group {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .control-label {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--cody-blue);
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+            justify-content: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .slider {
+            width: 100%;
+            max-width: 500px;
+            height: 40px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--sky-blue);
+            border-radius: var(--radius-full);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 60px;
+            height: 60px;
+            background: var(--fun-pink);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.3s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: var(--playful-purple);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 60px;
+            height: 60px;
+            background: var(--fun-pink);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            background: var(--playful-purple);
+        }
+
+        .slider-value {
+            font-size: 72px;
+            font-weight: bold;
+            color: var(--fun-pink);
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .dance-button {
+            width: 100%;
+            max-width: 400px;
+            padding: var(--spacing-lg);
+            font-size: 36px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: var(--shadow-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin: 0 auto;
+        }
+
+        .dance-button.primary {
+            background: linear-gradient(135deg, var(--fun-pink), var(--playful-purple));
+            color: var(--white);
+        }
+
+        .dance-button.primary:hover:not(:disabled) {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-large);
+        }
+
+        .dance-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-small);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .progress-label {
+            font-size: 20px;
+            color: var(--text-light);
+        }
+
+        .progress-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--cody-blue);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: var(--shadow-small);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-btn.secondary {
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .completion-modal.active {
+            display: flex;
+        }
+
+        .completion-content {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 600px;
+            text-align: center;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .completion-icon {
+            font-size: 120px;
+            margin-bottom: var(--spacing-md);
+            animation: pulse 1s infinite;
+        }
+
+        .completion-title {
+            font-size: 48px;
+            color: var(--cody-blue);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .completion-message {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stars-earned {
+            font-size: 72px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 40px;
+            }
+
+            .story-subtitle {
+                font-size: 22px;
+            }
+
+            .dancing-cody {
+                font-size: 120px;
+            }
+
+            .slider-value {
+                font-size: 48px;
+            }
+
+            .dance-button {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🏰</span>
+                <span class="logo-text">Codeville</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">🏠 Home</a></li>
+                <li><a href="../profile.html" class="nav-link">👤 Profile</a></li>
+                <li><a href="../dashboard.html" class="nav-link">📊 Dashboard</a></li>
+                <li><a href="../leaderboard.html" class="nav-link">🏆 Leaderboard</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="story-container">
+        <!-- Story Header -->
+        <section class="story-header fade-in">
+            <div class="story-title">🤖 The Dancing Robot Party</div>
+            <div class="story-subtitle">Learn about Loops!</div>
+        </section>
+
+        <!-- Cody's Instructions -->
+        <section class="cody-speech fade-in">
+            <div class="cody-avatar">🤖</div>
+            <div class="speech-bubble" id="codyMessage">
+                Hi! I'm Cody and I LOVE to dance! 💃 But I need YOU to tell me how many times to dance. 
+                Move the slider to pick a number, then press the big DANCE button! 
+                I'll dance exactly that many times and count with you: 1, 2, 3... Let's party!
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section fade-in">
+            <div class="progress-info">
+                <div class="progress-item">
+                    <div class="progress-icon">💃</div>
+                    <div class="progress-value" id="totalDances">0</div>
+                    <div class="progress-label">Total Dances</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">🎯</div>
+                    <div class="progress-value" id="targetDances">10</div>
+                    <div class="progress-label">Goal</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-icon">⭐</div>
+                    <div class="progress-value" id="starsPreview">0</div>
+                    <div class="progress-label">Stars</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dance Stage -->
+        <section class="game-area fade-in">
+            <div class="dance-stage">
+                <div class="stage-lights"></div>
+                <div class="dancing-cody" id="dancingCody">🤖</div>
+                <div class="dance-counter" id="danceCounter">Ready to dance!</div>
+            </div>
+        </section>
+
+        <!-- Controls -->
+        <section class="controls-section fade-in">
+            <div class="control-group">
+                <div class="control-label">How many times should I dance?</div>
+                <div class="slider-container">
+                    <div class="slider-value" id="sliderValue">5</div>
+                    <input type="range" min="1" max="20" value="5" class="slider" id="danceSlider">
+                </div>
+            </div>
+
+            <button class="dance-button primary" id="danceButton">
+                <span>💃</span>
+                <span>DANCE!</span>
+            </button>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="action-buttons">
+            <button class="action-btn secondary" onclick="resetGame()">
+                <span>🔄</span>
+                <span>Reset</span>
+            </button>
+            <button class="action-btn secondary" onclick="checkCompletion()">
+                <span>✅</span>
+                <span>Check My Work</span>
+            </button>
+            <button class="action-btn secondary" onclick="goBack()">
+                <span>🏠</span>
+                <span>Back to Dashboard</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- Completion Modal -->
+    <div class="completion-modal" id="completionModal">
+        <div class="completion-content">
+            <div class="completion-icon">🎉</div>
+            <div class="completion-title">Amazing Dancing!</div>
+            <div class="completion-message" id="completionMessage">
+                You made Cody dance so many times!
+            </div>
+            <div class="stars-earned" id="starsEarned">⭐⭐⭐</div>
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="completeStory()" style="background: var(--success-green); color: var(--white);">
+                    <span>🏆</span>
+                    <span>Continue</span>
+                </button>
+                <button class="action-btn secondary" onclick="playAgain()">
+                    <span>🔄</span>
+                    <span>Dance More</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/profile.js"></script>
+    <script>
+        // Game state
+        const gameState = {
+            totalDances: 0,
+            targetDances: 10,
+            isDancing: false,
+            completed: false
+        };
+
+        // Dance moves
+        const danceMoves = ['dance-move-1', 'dance-move-2', 'dance-move-3'];
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+        });
+
+        function initializeGame() {
+            // Check if profile exists
+            const profile = ProfileManager.getProfile();
+            if (!profile) {
+                alert('Please create your profile first!');
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Set up slider
+            const slider = document.getElementById('danceSlider');
+            const sliderValue = document.getElementById('sliderValue');
+
+            slider.addEventListener('input', function() {
+                sliderValue.textContent = this.value;
+                if (window.Codeville) {
+                    window.Codeville.playSound('click');
+                }
+            });
+
+            // Set up dance button
+            const danceButton = document.getElementById('danceButton');
+            danceButton.addEventListener('click', startDancing);
+
+            // Update progress
+            updateProgress();
+        }
+
+        async function startDancing() {
+            if (gameState.isDancing) return;
+
+            const slider = document.getElementById('danceSlider');
+            const danceCount = parseInt(slider.value);
+            const danceButton = document.getElementById('danceButton');
+            const cody = document.getElementById('dancingCody');
+            const counter = document.getElementById('danceCounter');
+
+            // Disable button while dancing
+            gameState.isDancing = true;
+            danceButton.disabled = true;
+
+            // Update Cody's message
+            updateCodyMessage(`Watch me dance ${danceCount} times!`);
+
+            // Dance loop!
+            for (let i = 1; i <= danceCount; i++) {
+                // Update counter
+                counter.textContent = `Dancing ${i} of ${danceCount}! 💃`;
+
+                // Pick random dance move
+                const moveClass = danceMoves[Math.floor(Math.random() * danceMoves.length)];
+                
+                // Add dance animation
+                cody.classList.add(moveClass);
+
+                // Play sound
+                if (window.Codeville) {
+                    window.Codeville.playSound('pop');
+                }
+
+                // Wait for animation to complete
+                await sleep(500);
+
+                // Remove animation class
+                cody.classList.remove(moveClass);
+
+                // Small pause between dances
+                await sleep(200);
+            }
+
+            // Finished dancing!
+            counter.textContent = `Finished! I danced ${danceCount} times! 🎉`;
+            
+            // Update total dances
+            gameState.totalDances += danceCount;
+            updateProgress();
+
+            // Update Cody's message
+            updateCodyMessage(`That was fun! I danced ${danceCount} times! Want me to dance again?`);
+
+            // Play success sound
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+            }
+
+            // Re-enable button
+            gameState.isDancing = false;
+            danceButton.disabled = false;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function updateProgress() {
+            document.getElementById('totalDances').textContent = gameState.totalDances;
+
+            // Calculate stars
+            let stars = 0;
+            if (gameState.totalDances >= 10) stars = 1;
+            if (gameState.totalDances >= 25) stars = 2;
+            if (gameState.totalDances >= 50) stars = 3;
+
+            document.getElementById('starsPreview').textContent = stars;
+        }
+
+        function updateCodyMessage(message) {
+            const messageElement = document.getElementById('codyMessage');
+            messageElement.textContent = message;
+        }
+
+        function checkCompletion() {
+            if (gameState.totalDances < gameState.targetDances) {
+                alert(`You need at least ${gameState.targetDances} total dances! You have ${gameState.totalDances}. Keep dancing!`);
+                return;
+            }
+
+            // Calculate stars
+            let stars = 1;
+            if (gameState.totalDances >= 25) stars = 2;
+            if (gameState.totalDances >= 50) stars = 3;
+
+            // Show completion modal
+            showCompletionModal(stars);
+        }
+
+        function showCompletionModal(stars) {
+            const modal = document.getElementById('completionModal');
+            const messageElement = document.getElementById('completionMessage');
+            const starsElement = document.getElementById('starsEarned');
+
+            let message = '';
+            if (stars === 3) {
+                message = `WOW! You made me dance ${gameState.totalDances} times! You're a loop master! 🎉`;
+            } else if (stars === 2) {
+                message = `Great job! You made me dance ${gameState.totalDances} times! You understand loops! 💃`;
+            } else {
+                message = `Good work! You made me dance ${gameState.totalDances} times! You're learning loops! 🤖`;
+            }
+
+            messageElement.textContent = message;
+            starsElement.textContent = '⭐'.repeat(stars);
+
+            modal.classList.add('active');
+
+            // Store stars for completion
+            gameState.starsEarned = stars;
+
+            // Play success sound and confetti
+            if (window.Codeville) {
+                window.Codeville.playSound('success');
+                window.Codeville.createConfetti();
+            }
+        }
+
+        function completeStory() {
+            const stars = gameState.starsEarned || 1;
+
+            // Save progress
+            ProfileManager.completeStory(2, stars);
+
+            // Check for badges
+            if (window.checkBadges) {
+                window.checkBadges();
+            }
+
+            // Redirect to dashboard
+            window.location.href = '../dashboard.html';
+        }
+
+        function playAgain() {
+            const modal = document.getElementById('completionModal');
+            modal.classList.remove('active');
+        }
+
+        function resetGame() {
+            if (confirm('Are you sure you want to reset? Your total dances will be cleared.')) {
+                gameState.totalDances = 0;
+                updateProgress();
+                document.getElementById('danceCounter').textContent = 'Ready to dance!';
+                updateCodyMessage('Let\'s start fresh! Move the slider and press DANCE!');
+                
+                if (window.Codeville) {
+                    window.Codeville.playSound('whoosh');
+                }
+            }
+        }
+
+        function goBack() {
+            if (confirm('Are you sure you want to leave? Your progress will not be saved.')) {
+                window.location.href = '../dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

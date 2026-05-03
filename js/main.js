@@ -343,50 +343,67 @@ function initSoundEffects() {
     if (soundsSetting !== null) {
         soundsEnabled = soundsSetting === 'true';
     }
+    
+    console.log('🔊 Sound effects initialized (legacy support)');
 }
 
 function playSound(soundName) {
-    if (!soundsEnabled) return;
-    
-    // Sound file mapping
-    const sounds = {
-        'click': 'sounds/click.mp3',
-        'success': 'sounds/success.mp3',
-        'error': 'sounds/error.mp3',
-        'star': 'sounds/star.mp3',
-        'badge': 'sounds/badge.mp3',
-        'whoosh': 'sounds/whoosh.mp3',
-        'pop': 'sounds/pop.mp3'
-    };
-    
-    const soundFile = sounds[soundName];
-    if (soundFile) {
-        const audio = new Audio(soundFile);
-        audio.volume = 0.5;
-        audio.play().catch(err => {
-            // Silently fail if sound can't play
-            console.log('Sound play failed:', err);
-        });
+    // Use new sound manager if available, otherwise fallback to legacy
+    if (window.soundManager) {
+        window.soundManager.play(soundName);
+    } else {
+        // Legacy fallback
+        if (!soundsEnabled) return;
+        
+        const isInSubfolder = window.location.pathname.includes('/stories/') ||
+                              window.location.pathname.includes('/dashboard') ||
+                              window.location.pathname.includes('/profile') ||
+                              window.location.pathname.includes('/leaderboard');
+        const pathPrefix = isInSubfolder ? '../' : '';
+        
+        const sounds = {
+            'click': `${pathPrefix}sounds/click.mp3`,
+            'success': `${pathPrefix}sounds/success.mp3`,
+            'error': `${pathPrefix}sounds/error.mp3`,
+            'star': `${pathPrefix}sounds/success.mp3`,
+            'badge': `${pathPrefix}sounds/success.mp3`,
+            'whoosh': `${pathPrefix}sounds/whoosh.mp3`,
+            'pop': `${pathPrefix}sounds/pop.mp3`
+        };
+        
+        const soundFile = sounds[soundName];
+        if (soundFile) {
+            const audio = new Audio(soundFile);
+            audio.volume = 0.5;
+            audio.play().catch(err => {
+                console.log('Sound play failed:', err);
+            });
+        }
     }
 }
 
 function toggleSounds() {
-    soundsEnabled = !soundsEnabled;
-    localStorage.setItem('soundsEnabled', soundsEnabled.toString());
-    return soundsEnabled;
+    if (window.soundManager) {
+        return window.soundManager.toggleSounds();
+    } else {
+        soundsEnabled = !soundsEnabled;
+        localStorage.setItem('soundsEnabled', soundsEnabled.toString());
+        return soundsEnabled;
+    }
 }
 
 // ===== CELEBRATION EFFECTS =====
 
 function showCelebration() {
-    // Create confetti
-    createConfetti();
-    
-    // Play celebration sound
-    playSound('success');
-    
-    // Show success message
-    showMessage('🎉 Profile Created! Welcome to Codeville!', 'success');
+    // Use new celebration characters if available
+    if (window.celebrationCharacters) {
+        window.celebrationCharacters.showCelebration();
+    } else {
+        // Fallback to legacy celebration
+        createConfetti();
+        playSound('success');
+        showMessage('🎉 Profile Created! Welcome to Codeville!', 'success');
+    }
 }
 
 function createConfetti() {
